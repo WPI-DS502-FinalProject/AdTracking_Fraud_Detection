@@ -11,13 +11,17 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
+library(class)
 # Read the training data that has all 1s
 trainYes <- read.csv(file="partitioned/train_yes.csv", header=FALSE, sep=",")
 
 # Read one partition of the training data that has all 0s
 trainNo <- read.csv(file="partitioned/train_0.csv", header=FALSE, sep=",")
+```
 
-# Combine and shuffle the two sets to create a balanced data 
+
+```{r}
+# Combine and shuffle the two sets to create a balanced data set
 trainData <- rbind(trainYes, trainNo) 
 trainData <- trainData[sample(nrow(trainData)), ] 
 
@@ -25,8 +29,33 @@ trainData <- trainData[sample(nrow(trainData)), ]
 names(trainData) <- c('ip', 'app', 'device', 'os', 'channel', 'click_time', 
                       'attributed_time', 'is_attributed')
 
+
+
+# Subset selection
+targetData <- trainData[sample(100000), ] 
+
+# Convert the datetime to numeric value
+targetData$click_time <- as.numeric(targetData$click_time)  
+
+# Remove the attributed_time
+targetData <- targetData[-7]
+
+
 # Split the data to training and test set
-Idx <- sample(floor(nrow(trainData) * 0.8))
-trainSet <- trainData[Idx,]
-testSet <- trainData[-Idx,]
+Idx <- sample(floor(nrow(targetData) * 0.8))
+trainSet <- targetData[Idx,]
+testSet <- targetData[-Idx,]
+
+
+knns.1 <- knn(trainSet, testSet, trainSet$is_attributed, k=1)  
+knns.2 <- knn(trainSet, testSet, trainSet$is_attributed, k=2)  
+
+
+```
+
+```{r}
+sum(testSet$is_attributed == knn1) / nrow(testSet)
+table(knn1)
+table(testSet$is_attributed)
+table(knn1, testSet$is_attributed)
 ```
