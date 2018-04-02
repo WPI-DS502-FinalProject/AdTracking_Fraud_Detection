@@ -1,0 +1,32 @@
+---
+title: "knn"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+# Read the training data that has all 1s
+trainYes <- read.csv(file="partitioned/train_yes.csv", header=FALSE, sep=",")
+
+# Read one partition of the training data that has all 0s
+trainNo <- read.csv(file="partitioned/train_0.csv", header=FALSE, sep=",")
+
+# Combine and shuffle the two sets to create a balanced data 
+trainData <- rbind(trainYes, trainNo) 
+trainData <- trainData[sample(nrow(trainData)), ] 
+
+# Re-assign the labels originally removed during partitioning
+names(trainData) <- c('ip', 'app', 'device', 'os', 'channel', 'click_time', 
+                      'attributed_time', 'is_attributed')
+
+# Split the data to training and test set
+Idx <- sample(floor(nrow(trainData) * 0.8))
+trainSet <- trainData[Idx,]
+testSet <- trainData[-Idx,]
+```
