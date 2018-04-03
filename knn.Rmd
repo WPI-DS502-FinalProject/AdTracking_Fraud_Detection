@@ -16,7 +16,7 @@ library(class)
 trainYes <- read.csv(file="partitioned/train_yes.csv", header=FALSE, sep=",")
 
 # Read one partition of the training data that has all 0s
-trainNo <- read.csv(file="partitioned/train_0.csv", header=FALSE, sep=",")
+trainNo <- read.csv(file="partitioned/train_50.csv", header=FALSE, sep=",")
 ```
 
 
@@ -26,13 +26,11 @@ trainData <- rbind(trainYes, trainNo)
 trainData <- trainData[sample(nrow(trainData)), ] 
 
 # Re-assign the labels originally removed during partitioning
-names(trainData) <- c('ip', 'app', 'device', 'os', 'channel', 'click_time', 
-                      'attributed_time', 'is_attributed')
-
-
+names(trainData) <- c('ip', 'app', 'device', 'os', 'channel', 
+                      'click_time', 'attributed_time', 'is_attributed')
 
 # Subset selection
-targetData <- trainData[sample(100000), ] 
+targetData <- trainData[sample(10000), ]
 
 # Convert the datetime to numeric value
 targetData$click_time <- as.numeric(targetData$click_time)  
@@ -40,22 +38,66 @@ targetData$click_time <- as.numeric(targetData$click_time)
 # Remove the attributed_time
 targetData <- targetData[-7]
 
-
 # Split the data to training and test set
 Idx <- sample(floor(nrow(targetData) * 0.8))
 trainSet <- targetData[Idx,]
 testSet <- targetData[-Idx,]
 
 
-knns.1 <- knn(trainSet, testSet, trainSet$is_attributed, k=1)  
-knns.2 <- knn(trainSet, testSet, trainSet$is_attributed, k=2)  
+#knns1 <- knn(trainSet, testSet, trainSet$is_attributed, k=1)
+```
 
+```{r} 
+ptm <- proc.time()
+knns <- vector(mode = "list", length = 10)
+for(k in 1:10){
+  knns[[k]] <- knn(trainSet, testSet, trainSet$is_attributed, k=k)
+}
+proc.time() - ptm
+```
+
+```{r}
+accuracy <- vector(mode = "list", length = 10)
+FPRs <- vector(mode = "list", length = 10)
+TPRs <- vector(mode = "list", length = 10)
+for(k in 1:10){
+  accuracy[[k]] <- sum(testSet$is_attributed == knns[[k]]) / nrow(testSet)
+  confusionMat <- table(testSet$is_attributed, knns[[k]])
+  TN <- confusionMat[1]
+  FN <- confusionMat[2]
+  FP <- confusionMat[3]
+  TP <- confusionMat[4]
+  
+  FPRs[[k]] <- FP / (TN + FN + FP + TP)
+  TPRs[[k]] <- TP / (TP + FN)
+}
+
+plot(FPRs, TPRs, t = 'l')
+text(FPRs,TPRs,labels=1:10)
+
+plot(1:10, accuracy, t = 'l')
+text(1:10, accuracy,labels=1:10)
 
 ```
 
 ```{r}
-sum(testSet$is_attributed == knn1) / nrow(testSet)
-table(knn1)
-table(testSet$is_attributed)
-table(knn1, testSet$is_attributed)
+trainData <- trainData[sample(nrow(trainData)), ]
+# Subset selection
+targetData <- trainData[sample(10000), ]
+
+# Convert the datetime to numeric value
+targetData$click_time <- as.numeric(targetData$click_time)  
+
+# Remove the attributed_time
+targetData <- targetData[-7]
+
+# Split the data to training and test set
+Idx <- sample(floor(nrow(targetData) * 0.8))
+trainSet <- targetData[Idx,]
+testSet <- targetData[-Idx,]
+knn3 <- knn(trainSet, testSet, trainSet$is_attributed, k=3)
+sum(testSet$is_attributed == knn3) / nrow(testSet)
+
+
+
 ```
