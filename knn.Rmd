@@ -83,10 +83,16 @@ text(1:10, accuracy,labels=1:10)
 ```{r}
 trainData <- trainData[sample(nrow(trainData)), ]
 # Subset selection
-targetData <- trainData[sample(10000), ]
+targetData <- trainData[sample(1000), ]
 
 # Convert the datetime to numeric value
+targetData$click_date <- as.Date(targetData$click_time)
+targetData$click_date <- as.numeric(targetData$click_date)
 targetData$click_time <- as.numeric(targetData$click_time)  
+
+
+
+#df$Time <- format(df$Start,"%H:%M:%S")
 
 # Remove the attributed_time
 targetData <- targetData[-7]
@@ -97,7 +103,4 @@ trainSet <- targetData[Idx,]
 testSet <- targetData[-Idx,]
 knn3 <- knn(trainSet, testSet, trainSet$is_attributed, k=3)
 sum(testSet$is_attributed == knn3) / nrow(testSet)
-
-
-
 ```
