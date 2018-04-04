@@ -1,0 +1,34 @@
+---
+title: "subsampling"
+output: pdf_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+for (c in 42:100){
+  BSData <- data.frame()
+  for(i in 0:368){
+    tmp <- read.csv(file= sprintf("partitioned/train_%s.csv", i), header=FALSE, sep=",")
+    tmp <- tmp[sample(nrow(tmp)), ] 
+    tmp <- tmp[sample(1000), ]
+    BSData <- rbind(BSData, tmp)
+  }
+  
+  zeros <- BSData[sample(nrow(BSData)), ]
+  zeros <- zeros[sample(200000), ]
+  
+  ones <- read.csv(file= "partitioned/train_yes.csv", header=FALSE, sep=",")
+  ones <- ones[sample(nrow(ones)), ]
+  ones <- ones[sample(200000), ]
+  
+  combined <- rbind(zeros, ones)
+  combined <- combined[sample(nrow(combined)), ]
+  
+  write.csv(combined, file = sprintf("subsamples/sub_%s.csv", c),row.names=FALSE, col.names = FALSE)
+}
+```
