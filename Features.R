@@ -1,31 +1,25 @@
 # Features Engineering
 
 # Load data and preparing the data frame
-setwd("C:/Users/Personal/Dropbox/HP-Spectre/WPI/Courses/Statistical Learning for Data Sciences/Project")
+setwd("C:/Users/Personal/Dropbox/HP-Spectre/WPI/Courses/Statistical Learning for Data Sciences/DS502/AdTracking_Fraud_Detection")
 
-dataOne=data.frame(read.csv('train_yes.csv'))
-colnames(dataOne)=c("ip","app","device","os","channel","click_time","attributed_time","is_attributed")
-
-dataZero=data.frame(read.csv('zerobs_0.csv'))
-colnames(dataZero)=c("ip","app","device","os","channel","click_time","attributed_time","is_attributed")
-
-# Preparing final data frame
-data=rbind(dataOne,dataZero)  
-attach(data)
+dataOri=data.frame(read.csv('./tempdata/subsamples/sub_0.csv'))
+colnames(dataOri)=c("ip","app","device","os","channel","click_time","attributed_time","is_attributed")
 
 # Predictor Analisys
+
+dataZero=dataOri[dataOri$is_attributed<1,]
+dataOne=dataOri[dataOri$is_attributed>0,]
+
 par(mfrow=c(2,2))
-#hist(log(dataZero$ip))
-#hist(log(dataOne$ip))
-
-dataN=(dataZero$device)
-dataY=(dataOne$device)
-
-hist(dataN,200)
-hist(dataY,200)
-hist(log(dataN),200)
-hist(log(dataY),200)
-
+hist(dataZero$channel,200)
+grid()
+hist(dataOne$channel,200)
+grid()
+hist(log10(dataZero$channel+1),200)
+grid()
+hist(log10(dataOne$channel+1),200)
+grid()
 
 
 
