@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+import sys
 
-ftrain = open('train.csv')
+ftrain = open(sys.argv[1])
 ftrain.readline()
 line = ftrain.readline()
 
