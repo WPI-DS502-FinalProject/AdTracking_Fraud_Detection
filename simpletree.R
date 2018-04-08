@@ -13,7 +13,7 @@ library (randomForest)
 #trainData <- rbind(trainYes, trainNo) 
 #trainData <- trainData[sample(nrow(trainData)), ] 
 
-trainData <- read.csv(file="/home/danm/Desktop/AdTracking_Fraud_Detection/tempdata/subsamples/sub_5.csv", header=TRUE, sep=",")
+trainData <- read.csv(file="/home/daniel/Desktop/AdTracking_Fraud_Detection/data/t1p60_subsamples/sub_0.csv", header=TRUE, sep=",")
 
 
 
