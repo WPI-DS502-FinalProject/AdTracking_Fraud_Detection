@@ -8,10 +8,19 @@ pred_list=c("is_attributed~ip", "is_attributed~ip+os", "is_attributed~ip+os+app"
 #Results Table: Initialize
 results_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
 
+extractFeature <- function(origData){
+  origData$attributed_time <- NULL
+  origData$hour <- as.numeric(format(as.POSIXct(origData$click_time) ,format = "%H"))
+  origData$day <- as.numeric(as.Date(origData$click_time))
+  origData$click_time <- NULL
+  return (origData)
+}
+
 for(file_num in c(0:NUM_FILES)){
   #Load Data
   origData=read.csv(file=paste("./data/t1p60_subsamples/sub_", file_num,".csv", sep=""))
   names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
+  origData <- extractFeature(origData) 
 
   for(branch_num in c(1:8)){
     #Create Branches:
