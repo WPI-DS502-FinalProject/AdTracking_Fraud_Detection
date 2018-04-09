@@ -13,8 +13,6 @@ results_table=data.frame(file=numeric(), branch=numeric(), model=character(), pr
 extractFeature <- function(origData){
   origData$attributed_time <- NULL
   origData$hour <- as.numeric(format(as.POSIXct(origData$click_time) ,format = "%H"))
-  origData$hour <- as.numeric(format(as.POSIXct(origData$click_time) ,format = "%H"))
-  origData$day <- as.numeric(as.Date(origData$click_time))
   origData$ip_app <- (origData$ip + 1) * origData$app
   origData$channel_app <- (origData$channel + 1) * origData$app
   origData$channel_ip <- (origData$channel + 1) * origData$ip
