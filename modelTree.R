@@ -1,5 +1,7 @@
+library(leaps)
+
 #Constants
-NUM_FILES=1         #Number of files to use
+NUM_FILES=0         #Number of files to use
 PER = 0.8           #Percent for training/testing set
 IP_THRESHOLD=213413 #IP threshold
 
@@ -11,7 +13,12 @@ results_table=data.frame(file=numeric(), branch=numeric(), model=character(), pr
 extractFeature <- function(origData){
   origData$attributed_time <- NULL
   origData$hour <- as.numeric(format(as.POSIXct(origData$click_time) ,format = "%H"))
+  origData$hour <- as.numeric(format(as.POSIXct(origData$click_time) ,format = "%H"))
   origData$day <- as.numeric(as.Date(origData$click_time))
+  origData$ip_app <- (origData$ip + 1) * origData$app
+  origData$channel_app <- (origData$channel + 1) * origData$app
+  origData$channel_ip <- (origData$channel + 1) * origData$ip
+  origData$channel_ip_app <- (origData$channel_ip + 1) * origData$app
   origData$click_time <- NULL
   return (origData)
 }
@@ -21,6 +28,12 @@ for(file_num in c(0:NUM_FILES)){
   origData=read.csv(file=paste("./data/t1p60_subsamples/sub_", file_num,".csv", sep=""))
   names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
   origData <- extractFeature(origData) 
+  
+  regfit <- regsubsets(is_attributed ~ ip+os+app+hour+channel+day+device+ip_app+channel_app+channel_ip+channel_ip_app,
+                       data = origData,
+                       nvmax = 11)
+  
+  summary(regfit)
 
   for(branch_num in c(1:8)){
     #Create Branches:
@@ -56,3 +69,4 @@ for(file_num in c(0:NUM_FILES)){
   }
 }
 results_table
+
