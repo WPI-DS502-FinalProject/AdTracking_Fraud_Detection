@@ -42,7 +42,7 @@ for(file_num in c(0:NUM_FILES)){
       branch_mean=mean(branch_pred != branch_test$is_attributed)
       
       #Logistic Regression: Save Result
-      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression",predictors=substring(pred_list[1], 15), accuracy=branch_mean))
+      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
     }
   }
 }
