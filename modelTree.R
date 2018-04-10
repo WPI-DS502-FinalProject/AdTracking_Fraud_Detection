@@ -4,8 +4,7 @@ library(leaps)
 NUM_FILES=0         #Number of files to use
 PER = 0.8           #Percent for training/testing set
 IP_THRESHOLD=213413 #IP threshold
-
-pred_list=c("is_attributed~ip", "is_attributed~ip+os", "is_attributed~ip+os+app", "is_attributed~ip+os+app+channel")
+SUBSET_PRED=""
 
 #Results Table: Initialize
 results_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
@@ -26,12 +25,6 @@ for(file_num in c(0:NUM_FILES)){
   origData=read.csv(file=paste("./data/t1p60_subsamples/sub_", file_num,".csv", sep=""))
   names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
   origData <- extractFeature(origData) 
-  
-  regfit <- regsubsets(is_attributed ~ ip+os+app+hour+channel+day+device+ip_app+channel_app+channel_ip+channel_ip_app,
-                       data = origData,
-                       nvmax = 11)
-  
-  summary(regfit)
 
   for(branch_num in c(1:8)){
     #Create Branches:
@@ -50,7 +43,30 @@ for(file_num in c(0:NUM_FILES)){
     branch_index = sample(floor(nrow(branch_data) * PER))
     branch_train = branch_data[branch_index,]
     branch_test  = branch_data[-branch_index,]
-  
+
+    #Subset Selection: Determining Predictors to use
+    ##regfit = regsubsets(is_attributed ~ ip+os+app+hour+channel+device+ip_app+channel_app+channel_ip+channel_ip_app,
+    regfit = regsubsets(is_attributed ~ ., data = branch_train)
+    regfit.summary = summary(regfit)
+    
+    #Subset Selection: Determining how many predictors to use
+    pred_num_adjr2=which.max(regfit.summary$adjr2)
+    #plot(regfit.summary$adjr2 ,xlab="Number of Variables ", ylab="Adjusted RSq",type="l")
+    #points(max,regfit.summary$adjr2[max], col="red",cex=2,pch=20)
+    pred_num_cp=which.min(regfit.summary$cp)
+    #plot(regfit.summary$cp ,xlab="Number of Variables ",ylab="Cp", type='l')
+    #points(min,regfit.summary$cp [min],col="red",cex=2,pch=20)
+    pred_num = min(pred_num_adjr2, pred_num_cp)
+    
+    #Subset Selection: Building list of chosen Predictors
+    pred_list=character()
+    for(pred_index in c(1:pred_num)){
+      inds=which(regfit.summary$outmat[pred_index,] %in% c("*"))
+      pred_string=paste("is_attributed~", paste(colnames(regfit.summary$outmat)[inds], collapse = '+'), sep="")
+      pred_list=c(pred_list, pred_string)
+    }
+    
+    #Training and Testing Models: using subset selection predictor list
     for(i in c(1:length(pred_list))){
       #Logistic Regression: Train Model
       branch_logreg = glm(pred_list[i], data=branch_data, family = "binomial", subset = branch_index)
@@ -66,5 +82,6 @@ for(file_num in c(0:NUM_FILES)){
     }
   }
 }
+
 results_table
 
