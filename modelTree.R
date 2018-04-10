@@ -3,7 +3,7 @@ library(MASS)
 library(class)
 
 #Constants
-NUM_FILES=0         #Number of files to use
+NUM_FILES=1         #Number of files to use
 PER = 0.8           #Percent for training/testing set
 IP_THRESHOLD=213413 #IP threshold
 
@@ -46,18 +46,33 @@ for(file_num in c(0:NUM_FILES)){
     branch_test  = branch_data[-branch_index,]
 
     #Subset Selection: Determining Predictors to use
-    ##regfit = regsubsets(is_attributed ~ ip+os+app+hour+channel+device+ip_app+channel_app+channel_ip+channel_ip_app,
     regfit = regsubsets(is_attributed ~ ., data = branch_train)
     regfit.summary = summary(regfit)
     
     #Subset Selection: Determining how many predictors to use
     pred_num_adjr2=which.max(regfit.summary$adjr2)
-    #plot(regfit.summary$adjr2 ,xlab="Number of Variables ", ylab="Adjusted RSq",type="l")
-    #points(pred_num_adjr2,regfit.summary$adjr2[pred_num_adjr2], col="red",cex=2,pch=20)
     pred_num_cp=which.min(regfit.summary$cp)
-    #plot(regfit.summary$cp ,xlab="Number of Variables ",ylab="Cp", type='l')
-    #points(pred_num_cp,regfit.summary$cp[pred_num_cp],col="red",cex=2,pch=20)
-    pred_num = min(pred_num_adjr2, pred_num_cp)
+    pred_num_bic=which.min(regfit.summary$bic)
+    
+    pred_num = min(pred_num_adjr2, pred_num_cp, pred_num_bic)
+    
+    if(TRUE){
+      png(filename=paste("./subsetSel_F", file_num, "_B", branch_num, ".png", sep=""))
+      
+      par(mfrow=c(2,2))
+      plot(regfit.summary$rss ,xlab="Number of Variables ",ylab="RSS",type="l")
+
+      plot(regfit.summary$adjr2 ,xlab="Number of Variables ", ylab="Adjusted RSq",type="l")
+      points(pred_num_adjr2,regfit.summary$adjr2[pred_num_adjr2], col="red",cex=2,pch=20)
+      
+      plot(regfit.summary$cp ,xlab="Number of Variables ",ylab="Cp", type='l')
+      points(pred_num_cp,regfit.summary$cp[pred_num_cp],col="red",cex=2,pch=20)
+      
+      plot(regfit.summary$bic ,xlab="Number of Variables ",ylab="BIC",type='l')
+      points(pred_num_bic,regfit.summary$bic[pred_num_bic],col="red",cex=2,pch=20)
+      
+      dev.off()
+    }
     
     #Subset Selection: Building list of chosen Predictors
     pred_list=character()
@@ -69,7 +84,6 @@ for(file_num in c(0:NUM_FILES)){
     
     #Training and Testing Models: using subset selection predictor list
     for(i in c(1:length(pred_list))){
-if(FALSE){
       #Logistic Regression:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "Logistic Regression")
       message(msg)
@@ -101,18 +115,14 @@ if(FALSE){
 
       #LDA: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-}
+
       #QDA:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "QDA")
       message(msg)
       
       #QDA: Train Model
       branch_QDA=qda(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
-      #branch_QDA=qda(is_attributed~device+os+hour+ip_app+channel_app+channel_ip, data=branch_data, subset=branch_index)
-      
-      ## DOES NOT WORK## I think predictor selection failied for this branch
-      #branch_QDA=qda(is_attributed~ip+app+device+os+channel+hour+channel_ip_app, data=branch_data, subset=branch_index)
-      
+
       #QDA: Test Model
       branch_probs=predict(branch_QDA, newdata=branch_test)
       branch_pred =rep(1, length(branch_probs$posterior))#Error
