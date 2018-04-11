@@ -13,6 +13,9 @@ trainNo <- read.csv(file="train_55.csv", header=FALSE, sep=",")
 trainData <- rbind(trainYes, trainNo) 
 trainData <- trainData[sample(nrow(trainData)), ] 
 
+#trainData <- read.csv(file="../tempdata/subsamples/sub_0.csv", header=TRUE, sep=",")
+#trainData <- read.csv(file="../data/t1p60_subsamples/sub_6.csv", header=TRUE, sep=",")
+
 # Re-assign the labels originally removed during partitioning
 names(trainData) <- c('ip', 'app', 'device', 'os', 'channel', 'click_time', 'attributed_time', 'is_attributed')
 trainData$attributed_time <- NULL
