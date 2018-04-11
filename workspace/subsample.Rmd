@@ -10,10 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-for (c in 2:100){
+for (c in 0:100){
   BSData <- data.frame()
   for(i in 0:221){
-    tmp <- read.csv(file= sprintf("data/t1p60/zeros_%s.csv", i), header=FALSE, sep=",")
+    tmp <- read.csv(file= sprintf("../data/t1p60/zeros_%s.csv", i), header=FALSE, sep=",")
     tmp <- tmp[sample(nrow(tmp)), ] 
     tmp <- tmp[sample(1000), ]
     BSData <- rbind(BSData, tmp)
@@ -22,16 +22,16 @@ for (c in 2:100){
   zeros <- BSData[sample(nrow(BSData)), ]
   zeros <- zeros[sample(200000), ]
   
-  ones <- read.csv(file= "data/t1p60/ones.csv", header=FALSE, sep=",")
-  ones_1 <- ones[sample(nrow(ones)), ]
-  ones_1 <- ones_1[sample(100000), ]
-  ones_2 <- ones[sample(nrow(ones)), ]
-  ones_2 <- ones_2[sample(100000), ]
-  ones <- rbind(ones_1, ones_2)
+  ones <- read.csv(file= "../data/t1p60/ones.csv", header=FALSE, sep=",")
+  ones <- ones[sample(nrow(ones)), ]
+  ones <- ones_1[sample(200000), ]
+  #ones_2 <- ones[sample(nrow(ones)), ]
+  #ones_2 <- ones_2[sample(100000), ]
+  #ones <- rbind(ones_1, ones_2)
   
   combined <- rbind(zeros, ones)
   combined <- combined[sample(nrow(combined)), ]
   
-  write.csv(combined, file = sprintf("data/t1p60_subsamples/sub_%s.csv", c),row.names=FALSE, col.names = FALSE)
+  write.csv(combined, file = sprintf("../data/t1p60_subsamples2/sub_%s.csv", c),row.names=FALSE, col.names = FALSE)
 }
 ```
