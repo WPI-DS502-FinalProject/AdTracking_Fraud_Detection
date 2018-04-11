@@ -71,7 +71,7 @@ for(file_num in c(0:NUM_FILES)){
     pred_num = min(pred_num_adjr2, pred_num_cp, pred_num_bic)
     
     if(TRUE){
-      png(filename=paste("./subsetSel_F", file_num, "_B", branch_num, ".png", sep=""))
+      png(filename=paste("./img/subsetSel_F", file_num, "_B", branch_num, ".png", sep=""))
       
       par(mfrow=c(2,2))
       plot(regfit.summary$rss ,xlab="Number of Variables ",ylab="RSS",type="l")
