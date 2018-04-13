@@ -24,7 +24,7 @@ extractFeature <- function(origData){
   return (origData)
 }
 
-for(file_num in c(1:NUM_FILES)){
+for(file_num in c(0:NUM_FILES)){
   #Load Data
   origData=read.csv(file=paste("./data/t1p60_subsamples/sub_", file_num,".csv", sep=""))
   names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
@@ -96,7 +96,7 @@ for(file_num in c(1:NUM_FILES)){
     
     #Training and Testing Models: using subset selection predictor list
     for(i in c(1:length(pred_list))){
-      tryCatch({
+    tryCatch({
       
       #Logistic Regression:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "Logistic Regression")
@@ -113,7 +113,8 @@ for(file_num in c(1:NUM_FILES)){
       
       #Logistic Regression: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression", predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
+    }, error = function(e) {})
+    tryCatch({
       #LDA:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "LDA")
       message(msg)
@@ -129,7 +130,8 @@ for(file_num in c(1:NUM_FILES)){
       
       #LDA: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
+    }, error = function(e) {})
+    tryCatch({
       #QDA:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "QDA")
       message(msg)
@@ -156,9 +158,8 @@ for(file_num in c(1:NUM_FILES)){
       
       #KNN: Save Result
       #      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="KNN",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      }, error = function(e) {
-        
-      })
+      
+    }, error = function(e) {})
     }
   }
 }
