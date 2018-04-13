@@ -51,7 +51,6 @@ for(file_num in c(0:NUM_FILES)){
     
     balance_table=rbind(balance_table, data.frame(file=file_num, branch=branch_num, human=human, bot=bot, total=total, humanPer=humanPer, botPer=botPer))
     
-    
     #Split data: training and testing set
     branch_index = sample(floor(nrow(branch_data) * PER))
     branch_train = branch_data[branch_index,]
