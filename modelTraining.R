@@ -62,11 +62,11 @@ for(file_num in c(1:NUM_FILES)){
     regfit.summary = summary(regfit)
     
     #Subset Selection: Determining how many predictors to use
-    pred_num_adjr2=which.max(regfit.summary$adjr2)
-    pred_num_cp=which.min(regfit.summary$cp)
-    pred_num_bic=which.min(regfit.summary$bic)
+    #pred_num_adjr2=which.max(regfit.summary$adjr2)
+    #pred_num_cp=which.min(regfit.summary$cp)
+    #pred_num_bic=which.min(regfit.summary$bic)
     
-    pred_num = min(pred_num_adjr2, pred_num_cp, pred_num_bic)
+    #pred_num = min(pred_num_adjr2, pred_num_cp, pred_num_bic)
     
     if(TRUE){
       png(filename=paste("./img/subsetSel_F", file_num, "_B", branch_num, ".png", sep=""))
@@ -88,7 +88,7 @@ for(file_num in c(1:NUM_FILES)){
     
     #Subset Selection: Building list of chosen Predictors
     pred_list=character()
-    for(pred_index in c(1:pred_num)){
+    for(pred_index in c(1:length(regfit.summary))){
       inds=which(regfit.summary$outmat[pred_index,] %in% c("*"))
       pred_string=paste("is_attributed~", paste(colnames(regfit.summary$outmat)[inds], collapse = '+'), sep="")
       pred_list=c(pred_list, pred_string)
@@ -133,7 +133,7 @@ for(file_num in c(1:NUM_FILES)){
       message(msg)
       
       #QDA: Train Model
-      branch_QDA=qda(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
+      try(branch_QDA=qda(as.formula(pred_list[i]), data=branch_data, subset=branch_index))
       
       #QDA: Test Model
       branch_probs=predict(branch_QDA, newdata=branch_test)
