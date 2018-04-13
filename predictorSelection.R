@@ -5,10 +5,8 @@ BRANCH_TOTAL = 7 #Number of branches
 #Best Predictor per model Table: Initialize
 pred_per_model_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
 
-#Pick Predictors
+#Pick Predictors Per File
 model_list=unique(results_table$model)
-pred_list=unique(results_table[results_table$branch==1,]$predictors)
-
 for(file_num in c(1:NUM_FILES)){
   for(branch_num in c(1:BRANCH_TOTAL)){
     for(model_num in c(1:length(model_list))){
@@ -17,4 +15,8 @@ for(file_num in c(1:NUM_FILES)){
     }
   }
 }
-pred_per_model_table
+
+#Pick Best file
+for(file_num in c(1:NUM_FILES)){
+  accuracy_list=average(pred_per_model_table[pred_per_model_table$file==0,])
+}
