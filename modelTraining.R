@@ -61,14 +61,13 @@ for(file_num in c(0:NUM_FILES)){
     regfit = regsubsets(is_attributed ~ ., data = branch_train)
     regfit.summary = summary(regfit)
     
-    #Subset Selection: Determining how many predictors to use
-    #pred_num_adjr2=which.max(regfit.summary$adjr2)
-    #pred_num_cp=which.min(regfit.summary$cp)
-    #pred_num_bic=which.min(regfit.summary$bic)
-    
-    #pred_num = min(pred_num_adjr2, pred_num_cp, pred_num_bic)
-    
-    if(TRUE){
+    if(FALSE){
+      #Subset Selection: Determining how many predictors to use
+      pred_num_adjr2=which.max(regfit.summary$adjr2)
+      pred_num_cp=which.min(regfit.summary$cp)
+      pred_num_bic=which.min(regfit.summary$bic)
+      
+      pred_num = min(pred_num_adjr2, pred_num_cp, pred_num_bic)
       png(filename=paste("./img/subsetSel_F", file_num, "_B", branch_num, ".png", sep=""))
       
       par(mfrow=c(2,2))
@@ -147,7 +146,9 @@ for(file_num in c(0:NUM_FILES)){
       
       #QDA: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
+    }, error = function(e) {})
+    }
+    
       # KNN
       #      msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "KNN")
       #      message(msg)
@@ -159,7 +160,5 @@ for(file_num in c(0:NUM_FILES)){
       #KNN: Save Result
       #      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="KNN",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
       
-    }, error = function(e) {})
-    }
   }
 }
