@@ -24,4 +24,4 @@ for(file_num in c(0:NUM_FILES)){
   avr_per_file_table=rbind(avr_per_file_table, data.frame(file=file_num, accuracy=mean(pred_per_model_table[pred_per_model_table$file==file_num,]$accuracy)))
 }
 
-BEST_FILE=which.min(avr_per_file_table$accuracy)-1
+BEST_FILE=which.max(avr_per_file_table$accuracy)-1
