@@ -88,7 +88,7 @@ for(file_num in c(1:NUM_FILES)){
     
     #Subset Selection: Building list of chosen Predictors
     pred_list=character()
-    for(pred_index in c(1:length(regfit.summary))){
+    for(pred_index in c(1:length(regfit.summary$outmat[, 1]))){
       inds=which(regfit.summary$outmat[pred_index,] %in% c("*"))
       pred_string=paste("is_attributed~", paste(colnames(regfit.summary$outmat)[inds], collapse = '+'), sep="")
       pred_list=c(pred_list, pred_string)
@@ -96,6 +96,8 @@ for(file_num in c(1:NUM_FILES)){
     
     #Training and Testing Models: using subset selection predictor list
     for(i in c(1:length(pred_list))){
+      tryCatch({
+      
       #Logistic Regression:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "Logistic Regression")
       message(msg)
@@ -110,7 +112,7 @@ for(file_num in c(1:NUM_FILES)){
       branch_mean=mean(branch_pred != branch_test$is_attributed)
       
       #Logistic Regression: Save Result
-      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
+      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression", predictors=substring(pred_list[i], 15), accuracy=branch_mean))
       
       #LDA:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "LDA")
@@ -133,7 +135,7 @@ for(file_num in c(1:NUM_FILES)){
       message(msg)
       
       #QDA: Train Model
-      try(branch_QDA=qda(as.formula(pred_list[i]), data=branch_data, subset=branch_index))
+      branch_QDA=qda(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
       
       #QDA: Test Model
       branch_probs=predict(branch_QDA, newdata=branch_test)
@@ -154,7 +156,9 @@ for(file_num in c(1:NUM_FILES)){
       
       #KNN: Save Result
       #      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="KNN",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
+      }, error = function(e) {
+        
+      })
     }
   }
 }
