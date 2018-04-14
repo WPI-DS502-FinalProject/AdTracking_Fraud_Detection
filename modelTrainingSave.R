@@ -5,6 +5,7 @@ library(caret)
 
 #Constants
 BRANCH_TOTAL = 7 #Number of branches
+MODEL_TOTAL = 5  #Number of models per branch
 PER = 0.8        #Percent for training/testing set
 
 extractFeature <- function(origData){
@@ -55,8 +56,8 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_logreg = glm(paste("is_attributed~",pred,collapse=""), data=branch_data, family = "binomial", subset = branch_index)
   
   #Logistic Regression: Save Model
-  training_models[[(branch_num-1)*4+1]]=branch_logreg
-
+  training_models[[(branch_num-1)*MODEL_TOTAL+1]]=branch_logreg
+  
   #LDA:
   #LDA: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="LDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
@@ -68,7 +69,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_LDA=lda(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
   
   #LDA: Save Result
-  training_models[[(branch_num-1)*4+2]]=branch_LDA
+  training_models[[(branch_num-1)*MODEL_TOTAL+2]]=branch_LDA
   
   #QDA:
   #QDA: Assign Predictor
@@ -81,33 +82,59 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_QDA=qda(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
   
   #QDA: Save Result
-  training_models[[(branch_num-1)*4+3]]=branch_QDA
+  training_models[[(branch_num-1)*MODEL_TOTAL+3]]=branch_QDA
   
-  if(FALSE){
-  # KNN
-  pred=pred_per_model_table[(pred_per_model_table$model=="KNN 12")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
-
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
+  #SVM:
+  #SVM: Assign Predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="SVM")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+  
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "SVM")
   message(msg)
   
-  #grid = expand.grid(k = c(12)) #in this case data.frame(k = c(3, 9, 12)) will do
-  branch_knn = train(as.formula(paste("is_attributed~",pred,collapse="")), method= "knn",
-                      data = branch_train,
-                      #trControl = trainControl(method = "repeatedcv", number = 10, repeats = 3),
-                      #preProcess = c("center", "scale"),
-                      tuneGrid = expand.grid(k = c(12)))
+  #SVM: Train Model
+  branch_SVM=svm(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
   
-  test_pred = predict(branch_knn, newdata = branch_test)
-  #branch_mean=mean(test_pred == branch_test$is_attributed)
-  x=confusionMatrix(test_pred, branch_test$is_attributed )
+  #SVM: Save Result
+  training_models[[(branch_num-1)*MODEL_TOTAL+4]]=branch_SVM
   
-  #message(branch_mean)
-  #train.Attributed=cbind(branch_data$is_attributed[branch_index])
-  #predix = unlist(strsplit(as.character(pred), "+", fixed=TRUE))
-  #branch_knn = knn(branch_train[predix], branch_test[predix], train.Attributed, k = 12)
-
-  #KNN: Save Result
-  training_models[[(branch_num-1)*4+4]]=branch_knn
+  #NaiveBayes:
+  #NaiveBayes: Assign Predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="NaiveBayes")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+  
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "NaiveBayes")
+  message(msg)
+  
+  #NaiveBayes: Train Model
+  branch_NB=naiveBayes(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
+  
+  #NaiveBayes: Save Result
+  training_models[[(branch_num-1)*MODEL_TOTAL+5]]=branch_NB
+  
+  if(FALSE){
+    # KNN
+    pred=pred_per_model_table[(pred_per_model_table$model=="KNN 12")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+    
+    msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
+    message(msg)
+    
+    #grid = expand.grid(k = c(12)) #in this case data.frame(k = c(3, 9, 12)) will do
+    branch_knn = train(as.formula(paste("is_attributed~",pred,collapse="")), method= "knn",
+                       data = branch_train,
+                       #trControl = trainControl(method = "repeatedcv", number = 10, repeats = 3),
+                       #preProcess = c("center", "scale"),
+                       tuneGrid = expand.grid(k = c(12)))
+    
+    test_pred = predict(branch_knn, newdata = branch_test)
+    #branch_mean=mean(test_pred == branch_test$is_attributed)
+    x=confusionMatrix(test_pred, branch_test$is_attributed )
+    
+    #message(branch_mean)
+    #train.Attributed=cbind(branch_data$is_attributed[branch_index])
+    #predix = unlist(strsplit(as.character(pred), "+", fixed=TRUE))
+    #branch_knn = knn(branch_train[predix], branch_test[predix], train.Attributed, k = 12)
+    
+    #KNN: Save Result
+    training_models[[(branch_num-1)*4+4]]=branch_knn
   }
 }
 
