@@ -22,6 +22,7 @@ names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attrib
 origData <- extractFeature(origData) 
 
 training_models=list()
+pred_rawlist=list()
 
 for(branch_num in c(1:BRANCH_TOTAL)){
   #Create Branches:
@@ -50,7 +51,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_logreg = glm(paste("is_attributed~",pred,collapse=""), data=branch_data, family = "binomial", subset = branch_index)
   
   #Logistic Regression: Save Model
-  training_models[[(branch_num-1)*3+1]]=branch_logreg
+  training_models[[(branch_num-1)*4+1]]=branch_logreg
 
   #LDA:
   #LDA: Assign Predictor
@@ -63,7 +64,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_LDA=lda(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
   
   #LDA: Save Result
-  training_models[[(branch_num-1)*3+2]]=branch_LDA
+  training_models[[(branch_num-1)*4+2]]=branch_LDA
   
   #QDA:
   #QDA: Assign Predictor
@@ -77,6 +78,19 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
 
   #QDA: Save Result
-  training_models[[(branch_num-1)*3+3]]=branch_QDA
+  training_models[[(branch_num-1)*4+3]]=branch_QDA
+  
+  # KNN
+  pred=pred_per_model_table[(pred_per_model_table$model=="KNN 12")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+  
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
+  message(msg)
+    
+  train.Attributed=cbind(branch_data$is_attributed[branch_index])
+  predix = paste(pred,collapse="")
+  branch_knn = knn(branch_train[predix], branch_test[predix], train.Attributed, k = k)
+
+  #KNN: Save Result
+  training_models[[(branch_num-1)*4+4]]=branch_knn
 }
 

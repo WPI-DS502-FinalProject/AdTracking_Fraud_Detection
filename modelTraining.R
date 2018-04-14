@@ -2,8 +2,6 @@ library(leaps)
 library(MASS)
 library(class)
 
-sy
-
 #Constants
 NUM_FILES = 1    #Number of files to use
 PER = 0.8        #Percent for training/testing set
@@ -166,6 +164,5 @@ for(file_num in c(0:NUM_FILES)){
       }, error = function(e) {message("KNN Failed")})
       }
     }
-      
   }
 }

@@ -50,7 +50,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #Logistic Regression: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*3+1]], newdata=branch_data, type="response")
+  branch_probs=predict(training_models[[(branch_num-1)*4+1]], newdata=branch_data, type="response")
   branch_pred =rep(1, length(branch_probs))#Error
   branch_pred[branch_probs > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
@@ -66,7 +66,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #LDA: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*3+2]], newdata=branch_data)
+  branch_probs=predict(training_models[[(branch_num-1)*4+2]], newdata=branch_data)
   branch_pred =rep(1, length(branch_probs$posterior))#Error
   branch_pred[branch_probs$posterior[,2] > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
@@ -82,13 +82,29 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #QDA: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*3+3]], newdata=branch_data)
+  branch_probs=predict(training_models[[(branch_num-1)*4+3]], newdata=branch_data)
   branch_pred =rep(1, length(branch_probs$posterior))#Error
   branch_pred[branch_probs$posterior[,2] > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
   
   #QDA: Save Result
   test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean))
+  
+  #KNN
+  pred=pred_per_model_table[(pred_per_model_table$model=="KNN 12")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+  
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
+  message(msg)
+  
+  #KNN: Test Model
+  train.Attributed=cbind(branch_data$is_attributed[branch_index])
+  predix = unlist(pred_rawlist[[i]])
+  branch_knn = training_models[[(branch_num-1)*4+4]]
+  branch_mean=mean(branch_knn == branch_test$is_attributed)
+  
+  #KNN: Save Result
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="KNN 12", predictors=pred, accuracy=branch_mean))
+  
 }
 
 #Best model per branch Table: Initialize
