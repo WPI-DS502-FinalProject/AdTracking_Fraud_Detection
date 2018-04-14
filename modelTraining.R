@@ -148,6 +148,13 @@ for(file_num in c(0:NUM_FILES)){
       #QDA: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
     }, error = function(e) {message("QDA Failed")})
+      
+      #library(e1071)
+      #model_svm <- svm(y ~ x, train)
+      #pred <- predict(model_svm, train)
+      #https://www.r-bloggers.com/machine-learning-using-support-vector-machines/
+      
+      
       for(k in 12:12){
       # KNN
       tryCatch({      
