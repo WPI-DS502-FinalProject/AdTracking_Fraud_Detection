@@ -4,10 +4,13 @@ library(class)
 
 #Constants
 NUM_FILES = 5    #Number of files to use
+MODEL_TOTAL = 5  #Number of models per branch
 BRANCH_TOTAL = 7 #Number of branches
 
 #Results Table: Initialize
 test_results_table=data.frame(branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
+
+testing_models=list()
 
 extractFeature <- function(origData){
   origData$attributed_time <- NULL
@@ -50,7 +53,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #Logistic Regression: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*4+1]], newdata=branch_data, type="response")
+  branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+1]], newdata=branch_data, type="response")
   branch_pred =rep(1, length(branch_probs))#Error
   branch_pred[branch_probs > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
@@ -66,7 +69,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #LDA: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*4+2]], newdata=branch_data)
+  branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+2]], newdata=branch_data)
   branch_pred =rep(1, length(branch_probs$posterior))#Error
   branch_pred[branch_probs$posterior[,2] > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
@@ -82,7 +85,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #QDA: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*4+3]], newdata=branch_data)
+  branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+3]], newdata=branch_data)
   branch_pred =rep(1, length(branch_probs$posterior))#Error
   branch_pred[branch_probs$posterior[,2] > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
@@ -98,29 +101,28 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #SVM: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*4+3]], newdata=branch_data)
-  branch_pred =rep(1, length(branch_probs$posterior))#Error
-  branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+4]], newdata=branch_data)
+  branch_pred =rep(1, length(branch_probs))#Error
+  branch_pred[branch_probs > 0.5] = 0
+  branch_mean=mean(branch_pred != branch_test$is_attributed)
   
   #SVM: Save Result
   test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean))
   
   #NaiveBayes:
   #NaiveBayes: Assign Predictor
-  pred=pred_per_model_table[(pred_per_model_table$model=="QDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+  pred=pred_per_model_table[(pred_per_model_table$model=="NaiveBayes")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "QDA")
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "NaiveBayes")
   message(msg)
   
   #NaiveBayes: Test Model
-  branch_probs=predict(training_models[[(branch_num-1)*4+3]], newdata=branch_data)
-  branch_pred =rep(1, length(branch_probs$posterior))#Error
-  branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+5]], newdata=branch_data)
+  branch_pred =rep(1, length(branch_probs))#Error
+  branch_mean=mean(branch_pred != branch_test$is_attributed)
   
   #NaiveBayes: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean))
   
   if(FALSE){
     #KNN
@@ -143,9 +145,11 @@ for(branch_num in c(1:BRANCH_TOTAL)){
 #Best model per branch Table: Initialize
 model_per_branch_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
 
+
 #Pick Models
 for(branch_num in c(1:BRANCH_TOTAL)){
   temp_table=test_results_table[(test_results_table$branch==branch_num),]
   model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy),])
+  testing_models[[branch_num]] = training_models[[(branch_num-1)*MODEL_TOTAL+which(unique(test_results_table$model) %in% temp_table[which.max(temp_table$accuracy),]$model)]]
 }
 model_per_branch_table

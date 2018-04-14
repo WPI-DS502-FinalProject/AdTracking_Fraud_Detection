@@ -105,7 +105,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #NaiveBayes: Train Model
-  branch_NB=naiveBayes(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
+  branch_NB=naiveBayes(as.formula(paste("as.factor(is_attributed)~",pred,collapse="")), data=branch_data, subset=branch_index)
   
   #NaiveBayes: Save Result
   training_models[[(branch_num-1)*MODEL_TOTAL+5]]=branch_NB
