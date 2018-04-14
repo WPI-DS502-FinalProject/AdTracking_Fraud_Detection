@@ -1,9 +1,11 @@
 library(leaps)
 library(MASS)
 library(class)
+library(caret)
 
 #Constants
 BRANCH_TOTAL = 7 #Number of branches
+PER = 0.8        #Percent for training/testing set
 
 extractFeature <- function(origData){
   origData$attributed_time <- NULL
@@ -23,6 +25,7 @@ origData <- extractFeature(origData)
 
 training_models=list()
 pred_rawlist=list()
+trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
 
 for(branch_num in c(1:BRANCH_TOTAL)){
   #Create Branches:
@@ -39,6 +42,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   #Split data: training and testing set
   branch_index = sample(floor(nrow(branch_data) * PER))
   branch_train = branch_data[branch_index,]
+  branch_test  = branch_data[-branch_index,]
   
   #Logistic Regression:
   #Logistic Regression: Assign Predictor
@@ -82,13 +86,32 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
   # KNN
   pred=pred_per_model_table[(pred_per_model_table$model=="KNN 12")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
-  
+
   msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
   message(msg)
-    
-  train.Attributed=cbind(branch_data$is_attributed[branch_index])
-  predix = paste(pred,collapse="")
-  branch_knn = knn(branch_train[predix], branch_test[predix], train.Attributed, k = k)
+  
+  #trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
+  #knn_fit = train(V1 ~., data = training, method = "knn",
+  #                 trControl=trctrl,
+  #                 preProcess = c("center", "scale"),
+  #                 tuneLength = 10)
+  #test_pred = predict(knn_fit, newdata = testing)
+  
+  #grid = expand.grid(k = c(12)) #in this case data.frame(k = c(3, 9, 12)) will do
+  branch_knn = train(as.formula(paste("is_attributed~",pred,collapse="")), method= "knn",
+                      data = branch_train,
+                      #trControl = trainControl(method = "repeatedcv", number = 10, repeats = 3),
+                      #preProcess = c("center", "scale"),
+                      tuneGrid = expand.grid(k = c(12)))
+  
+  test_pred = predict(branch_knn, newdata = branch_test)
+  #branch_mean=mean(test_pred == branch_test$is_attributed)
+  x=confusionMatrix(test_pred, branch_test$is_attributed )
+  
+  #message(branch_mean)
+  #train.Attributed=cbind(branch_data$is_attributed[branch_index])
+  #predix = unlist(strsplit(as.character(pred), "+", fixed=TRUE))
+  #branch_knn = knn(branch_train[predix], branch_test[predix], train.Attributed, k = 12)
 
   #KNN: Save Result
   training_models[[(branch_num-1)*4+4]]=branch_knn
