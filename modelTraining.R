@@ -167,7 +167,26 @@ for(file_num in c(0:NUM_FILES)){
         #SVM: Save Result
         results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="SVM",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
       }, error = function(e) {message("SVM Failed")})
-
+      
+      tryCatch({
+        #NaiveBayes:
+        msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "NaiveBayes")
+        message(msg)
+        
+        #NaiveBayes: Train Model
+        branch_NB <- naiveBayes(as.formula(pred_list[i]), data = branch_data, subset = branch_index)
+        
+        #NaiveBayes: Test Model
+        branch_probs=predict(branch_NB, newdata=branch_test)
+        branch_pred =rep(1, length(branch_probs))#Error
+        branch_pred[branch_probs > 0.5] = 0
+        branch_mean=mean(branch_pred != branch_test$is_attributed)
+        
+        #NaiveBayes: Save Result
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="NaiveBayes",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
+        
+      }, error = function(e) {message("NaiveBayes Failed")})  
+      
       if(FALSE){
       for(k in 12:12){
       # KNN
