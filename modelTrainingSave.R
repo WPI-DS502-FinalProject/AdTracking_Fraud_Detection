@@ -80,22 +80,15 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   #QDA: Train Model
   branch_QDA=qda(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
   
-
   #QDA: Save Result
   training_models[[(branch_num-1)*4+3]]=branch_QDA
   
+  if(FALSE){
   # KNN
   pred=pred_per_model_table[(pred_per_model_table$model=="KNN 12")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
 
   msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
   message(msg)
-  
-  #trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
-  #knn_fit = train(V1 ~., data = training, method = "knn",
-  #                 trControl=trctrl,
-  #                 preProcess = c("center", "scale"),
-  #                 tuneLength = 10)
-  #test_pred = predict(knn_fit, newdata = testing)
   
   #grid = expand.grid(k = c(12)) #in this case data.frame(k = c(3, 9, 12)) will do
   branch_knn = train(as.formula(paste("is_attributed~",pred,collapse="")), method= "knn",
@@ -115,5 +108,6 @@ for(branch_num in c(1:BRANCH_TOTAL)){
 
   #KNN: Save Result
   training_models[[(branch_num-1)*4+4]]=branch_knn
+  }
 }
 

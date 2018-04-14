@@ -1,6 +1,7 @@
 library(leaps)
 library(MASS)
 library(class)
+library(e1071)
 
 #Constants
 NUM_FILES = 1    #Number of files to use
@@ -149,12 +150,25 @@ for(file_num in c(0:NUM_FILES)){
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
     }, error = function(e) {message("QDA Failed")})
       
-      #library(e1071)
-      #model_svm <- svm(y ~ x, train)
-      #pred <- predict(model_svm, train)
-      #https://www.r-bloggers.com/machine-learning-using-support-vector-machines/
-      
-      
+      tryCatch({
+        #SVM:
+        msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "SVM")
+        message(msg)
+        
+        #SVM: Train Model
+        branch_SVM=svm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
+        
+        #SVM: Test Model
+        branch_probs=predict(branch_SVM, newdata=branch_test)
+        branch_pred =rep(1, length(branch_probs$posterior))#Error
+        branch_pred[branch_probs$posterior[,2] > 0.5] = 0
+        branch_mean=mean(branch_pred != branch_test$is_attributed)
+        
+        #SVM: Save Result
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="SVM",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
+      }, error = function(e) {message("SVM Failed")})
+
+      if(FALSE){
       for(k in 12:12){
       # KNN
       tryCatch({      
@@ -169,6 +183,7 @@ for(file_num in c(0:NUM_FILES)){
         #KNN: Save Result
         results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model=paste("KNN", k),predictors=substring(pred_list[i], 15), accuracy=branch_mean))
       }, error = function(e) {message("KNN Failed")})
+      }
       }
     }
   }
