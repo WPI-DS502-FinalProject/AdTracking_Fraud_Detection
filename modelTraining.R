@@ -156,7 +156,8 @@ for(file_num in c(0:NUM_FILES)){
         message(msg)
         
         #SVM: Train Model
-        branch_SVM=svm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
+        #branch_SVM=svm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
+        branch_SVM=glm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
         
         #SVM: Test Model
         branch_probs=predict(branch_SVM, newdata=branch_test)
@@ -174,7 +175,8 @@ for(file_num in c(0:NUM_FILES)){
         message(msg)
         
         #NaiveBayes: Train Model
-        branch_NB <- naiveBayes(as.formula(pred_list[i]), data = branch_data, subset = branch_index)
+        branch_NB <- naiveBayes(as.factor(is_attributed)~app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app, data = branch_train, subset = branch_index)
+        branch_NB <- naiveBayes(paste("as.factor(is_attributed) ~ app + device + os + channel + hour + channel_app + channel_ip + channel_ip_app"), data = branch_train, subset = branch_index)
         
         #NaiveBayes: Test Model
         branch_probs=predict(branch_NB, newdata=branch_test)

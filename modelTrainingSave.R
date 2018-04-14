@@ -1,7 +1,6 @@
 library(leaps)
 library(MASS)
 library(class)
-library(caret)
 
 #Constants
 BRANCH_TOTAL = 7 #Number of branches
@@ -26,7 +25,6 @@ origData <- extractFeature(origData)
 
 training_models=list()
 pred_rawlist=list()
-trctrl <- trainControl(method = "repeatedcv", number = 10, repeats = 3)
 
 for(branch_num in c(1:BRANCH_TOTAL)){
   #Create Branches:
@@ -87,18 +85,20 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   #SVM:
   #SVM: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="SVM")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
-  
+
   msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "SVM")
   message(msg)
   
   #SVM: Train Model
-  branch_SVM=svm(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
-  
+  #branch_SVM=svm(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
+  branch_SVM=glm(paste("is_attributed~",pred,collapse=""), data=branch_data, subset=branch_index)
+
   #SVM: Save Result
   training_models[[(branch_num-1)*MODEL_TOTAL+4]]=branch_SVM
   
   #NaiveBayes:
   #NaiveBayes: Assign Predictor
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "NaiveBayes")
   pred=pred_per_model_table[(pred_per_model_table$model=="NaiveBayes")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
   msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "NaiveBayes")
@@ -134,7 +134,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     #branch_knn = knn(branch_train[predix], branch_test[predix], train.Attributed, k = 12)
     
     #KNN: Save Result
-    training_models[[(branch_num-1)*4+4]]=branch_knn
+    training_models[[(branch_num-1)*MODEL_TOTAL+4]]=branch_knn
   }
 }
 
