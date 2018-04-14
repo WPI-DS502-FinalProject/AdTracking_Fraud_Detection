@@ -90,7 +90,7 @@ for(file_num in c(0:NUM_FILES)){
     for(pred_index in c(1:length(regfit.summary$outmat[, 1]))){
       inds=which(regfit.summary$outmat[pred_index,] %in% c("*"))
       pred_string=paste("is_attributed~", paste(colnames(regfit.summary$outmat)[inds], collapse = '+'), sep="")
-      pred_rawlist=as.list(colnames(regfit.summary$outmat)[inds])
+      pred_rawlist[pred_index]=as.list(colnames(regfit.summary$outmat)[inds])
       pred_list=c(pred_list, pred_string)
     }
     
