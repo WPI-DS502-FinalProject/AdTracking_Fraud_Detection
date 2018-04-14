@@ -3,8 +3,6 @@ library(MASS)
 library(class)
 
 #Constants
-NUM_FILES = 1    #Number of files to use
-PER = 0.8        #Percent for training/testing set
 BRANCH_TOTAL = 7 #Number of branches
 
 extractFeature <- function(origData){
@@ -45,7 +43,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   #Logistic Regression: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="Logistic Regression")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred, "Logistic Regression")
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "Logistic Regression")
   message(msg)
   
   #Logistic Regression: Train Model
@@ -58,7 +56,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   #LDA: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="LDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "LDA")
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "LDA")
   message(msg)
   
   #LDA: Train Model
@@ -71,7 +69,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   #QDA: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="QDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "QDA")
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "QDA")
   message(msg)
   
   #QDA: Train Model
