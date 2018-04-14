@@ -24,7 +24,6 @@ names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attrib
 origData <- extractFeature(origData) 
 
 training_models=list()
-pred_rawlist=list()
 
 for(branch_num in c(1:BRANCH_TOTAL)){
   #Create Branches:

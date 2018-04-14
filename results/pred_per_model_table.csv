@@ -1,0 +1,71 @@
+"","file","branch","model","predictors","accuracy"
+"31",0,1,"Logistic Regression","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.854833695990053
+"22",0,1,"LDA","ip+os+channel+channel_ip+channel_ip_app",0.851414361206093
+"8",0,1,"QDA","channel_ip+channel_ip_app",0.840223811004041
+"19",0,1,"SVM","os+channel+channel_ip+channel_ip_app",0.852657755672987
+"5",0,1,"NaiveBayes","channel_ip",0.831209201119055
+"46",0,2,"Logistic Regression","app+ip_app",0.986815821014782
+"42",0,2,"LDA","channel_ip",0.986216540151818
+"53",0,2,"QDA","app+device+ip_app",0.987015581302437
+"54",0,2,"SVM","app+device+ip_app",0.986616060727127
+"45",0,2,"NaiveBayes","channel_ip",0.0137834598481822
+"78",0,3,"Logistic Regression","ip",0.849225236659792
+"79",0,3,"LDA","ip",0.849225236659792
+"85",0,3,"QDA","ip+app",0.84533819874134
+"81",0,3,"SVM","ip",0.849225236659792
+"82",0,3,"NaiveBayes","ip",0.849225236659792
+"118",0,4,"Logistic Regression","ip",0.986873728970235
+"119",0,4,"LDA","ip",0.986873728970235
+"120",0,4,"QDA","ip",0.986873728970235
+"121",0,4,"SVM","ip",0.986873728970235
+"122",0,4,"NaiveBayes","ip",0.0131262710297652
+"178",0,5,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.855781723689909
+"179",0,5,"LDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.854265915980944
+"185",0,5,"QDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.849935036812473
+"176",0,5,"SVM","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.856214811606756
+"152",0,5,"NaiveBayes","channel",0.812906019922044
+"188",0,6,"Logistic Regression","ip",0.980628809365759
+"189",0,6,"LDA","ip",0.980628809365759
+"190",0,6,"QDA","ip",0.980628809365759
+"191",0,6,"SVM","ip",0.980628809365759
+"192",0,6,"NaiveBayes","ip",0.0193711906342405
+"263",0,7,"Logistic Regression","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.752814738996929
+"249",0,7,"LDA","device+os+channel+channel_ip+channel_ip_app",0.752302968270215
+"230",0,7,"QDA","ip",0.741555783009212
+"251",0,7,"SVM","device+os+channel+channel_ip+channel_ip_app",0.752302968270215
+"232",0,7,"NaiveBayes","ip",0.460593654042989
+"273",1,1,"Logistic Regression","channel_ip+channel_ip_app",0.850965961361546
+"289",1,1,"LDA","ip+device+channel+channel_ip+channel_ip_app",0.850965961361546
+"275",1,1,"QDA","channel_ip+channel_ip_app",0.840233057344373
+"301",1,1,"SVM","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.850659306961055
+"272",1,1,"NaiveBayes","channel_ip",0.831340079730144
+"318",1,2,"Logistic Regression","app+device+ip_app",0.989210789210789
+"309",1,2,"LDA","channel_ip",0.988411588411588
+"320",1,2,"QDA","app+device+ip_app",0.990809190809191
+"321",1,2,"SVM","app+device+ip_app",0.988811188811189
+"312",1,2,"NaiveBayes","channel_ip",0.0115884115884116
+"346",1,3,"Logistic Regression","ip",0.849110075219833
+"347",1,3,"LDA","ip",0.849110075219833
+"353",1,3,"QDA","ip+app",0.843918847335523
+"349",1,3,"SVM","ip",0.849110075219833
+"350",1,3,"NaiveBayes","ip",0.849110075219833
+"386",1,4,"Logistic Regression","ip_app",0.987052621844077
+"387",1,4,"LDA","ip_app",0.987052621844077
+"388",1,4,"QDA","ip_app",0.987052621844077
+"389",1,4,"SVM","ip_app",0.987052621844077
+"390",1,4,"NaiveBayes","ip_app",0.0129473781559234
+"446",1,5,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.850759219088937
+"452",1,5,"LDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.846854663774403
+"453",1,5,"QDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.844902386117137
+"444",1,5,"SVM","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.85119305856833
+"420",1,5,"NaiveBayes","channel",0.821475054229935
+"456",1,6,"Logistic Regression","ip",0.979917983355446
+"457",1,6,"LDA","ip",0.979917983355446
+"458",1,6,"QDA","ip",0.979917983355446
+"484",1,6,"SVM","app+device+channel+ip_app+channel_app+channel_ip_app",0.980038596068026
+"460",1,6,"NaiveBayes","ip",0.0200820166445543
+"506",1,7,"Logistic Regression","device+channel+channel_ip",0.752149721800708
+"507",1,7,"LDA","device+channel+channel_ip",0.75113808801214
+"498",1,7,"QDA","ip",0.745574102175013
+"509",1,7,"SVM","device+channel+channel_ip",0.75113808801214
+"500",1,7,"NaiveBayes","ip",0.465857359635812

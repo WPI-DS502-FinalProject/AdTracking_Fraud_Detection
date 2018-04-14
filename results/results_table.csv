@@ -1,0 +1,536 @@
+"","file","branch","model","predictors","accuracy"
+"1",0,1,"Logistic Regression","channel_ip",0.828722412185266
+"2",0,1,"LDA","channel_ip",0.82996580665216
+"3",0,1,"QDA","channel_ip",0.828722412185266
+"4",0,1,"SVM","channel_ip",0.831209201119055
+"5",0,1,"NaiveBayes","channel_ip",0.831209201119055
+"6",0,1,"Logistic Regression","channel_ip+channel_ip_app",0.851725209822816
+"7",0,1,"LDA","channel_ip+channel_ip_app",0.848927572272303
+"8",0,1,"QDA","channel_ip+channel_ip_app",0.840223811004041
+"9",0,1,"SVM","channel_ip+channel_ip_app",0.852346907056264
+"10",0,1,"NaiveBayes","channel_ip+channel_ip_app",0.831209201119055
+"11",0,1,"Logistic Regression","os+channel_ip+channel_ip_app",0.851103512589369
+"12",0,1,"LDA","os+channel_ip+channel_ip_app",0.84861672365558
+"13",0,1,"QDA","os+channel_ip+channel_ip_app",0.824370531551135
+"14",0,1,"SVM","os+channel_ip+channel_ip_app",0.852346907056264
+"15",0,1,"NaiveBayes","os+channel_ip+channel_ip_app",0.831209201119055
+"16",0,1,"Logistic Regression","os+channel+channel_ip+channel_ip_app",0.851725209822816
+"17",0,1,"LDA","os+channel+channel_ip+channel_ip_app",0.848305875038856
+"18",0,1,"QDA","os+channel+channel_ip+channel_ip_app",0.81380167858253
+"19",0,1,"SVM","os+channel+channel_ip+channel_ip_app",0.852657755672987
+"20",0,1,"NaiveBayes","os+channel+channel_ip+channel_ip_app",0.831209201119055
+"21",0,1,"Logistic Regression","ip+os+channel+channel_ip+channel_ip_app",0.853590301523158
+"22",0,1,"LDA","ip+os+channel+channel_ip+channel_ip_app",0.851414361206093
+"23",0,1,"QDA","ip+os+channel+channel_ip+channel_ip_app",0.796705004662729
+"24",0,1,"SVM","ip+os+channel+channel_ip+channel_ip_app",0.852346907056264
+"25",0,1,"NaiveBayes","ip+os+channel+channel_ip+channel_ip_app",0.831209201119055
+"26",0,1,"Logistic Regression","ip+os+channel+channel_app+channel_ip+channel_ip_app",0.854211998756606
+"27",0,1,"LDA","ip+os+channel+channel_app+channel_ip+channel_ip_app",0.849549269505751
+"28",0,1,"QDA","ip+os+channel+channel_app+channel_ip+channel_ip_app",0.787690394777743
+"29",0,1,"SVM","ip+os+channel+channel_app+channel_ip+channel_ip_app",0.852346907056264
+"30",0,1,"NaiveBayes","ip+os+channel+channel_app+channel_ip+channel_ip_app",0.831209201119055
+"31",0,1,"Logistic Regression","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.854833695990053
+"32",0,1,"LDA","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.849860118122474
+"33",0,1,"QDA","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.782716816910165
+"34",0,1,"SVM","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.852346907056264
+"35",0,1,"NaiveBayes","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.831209201119055
+"36",0,1,"Logistic Regression","ip+app+os+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.854211998756606
+"37",0,1,"LDA","ip+app+os+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.849549269505751
+"38",0,1,"QDA","ip+app+os+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.753807895554865
+"39",0,1,"SVM","ip+app+os+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.852346907056264
+"40",0,1,"NaiveBayes","ip+app+os+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.831209201119055
+"41",0,2,"Logistic Regression","channel_ip",0.986216540151818
+"42",0,2,"LDA","channel_ip",0.986216540151818
+"43",0,2,"QDA","channel_ip",0.986216540151818
+"44",0,2,"SVM","channel_ip",0.986216540151818
+"45",0,2,"NaiveBayes","channel_ip",0.0137834598481822
+"46",0,2,"Logistic Regression","app+ip_app",0.986815821014782
+"47",0,2,"LDA","app+ip_app",0.970435477427087
+"48",0,2,"QDA","app+ip_app",0.972433080303636
+"49",0,2,"SVM","app+ip_app",0.986216540151818
+"50",0,2,"NaiveBayes","app+ip_app",0.0137834598481822
+"51",0,2,"Logistic Regression","app+device+ip_app",0.986815821014782
+"52",0,2,"LDA","app+device+ip_app",0.976028765481422
+"53",0,2,"QDA","app+device+ip_app",0.987015581302437
+"54",0,2,"SVM","app+device+ip_app",0.986616060727127
+"55",0,2,"NaiveBayes","app+device+ip_app",0.0137834598481822
+"56",0,2,"Logistic Regression","device+ip_app+channel_app+channel_ip",0.986815821014782
+"57",0,2,"LDA","device+ip_app+channel_app+channel_ip",0.972233320015981
+"58",0,2,"QDA","device+ip_app+channel_app+channel_ip",0.983020375549341
+"59",0,2,"SVM","device+ip_app+channel_app+channel_ip",0.986616060727127
+"60",0,2,"NaiveBayes","device+ip_app+channel_app+channel_ip",0.0137834598481822
+"61",0,2,"Logistic Regression","device+os+ip_app+channel_app+channel_ip",0.986815821014782
+"62",0,2,"LDA","device+os+ip_app+channel_app+channel_ip",0.970834998002397
+"63",0,2,"QDA","device+os+ip_app+channel_app+channel_ip",0.981821813823412
+"64",0,2,"SVM","device+os+ip_app+channel_app+channel_ip",0.986616060727127
+"65",0,2,"NaiveBayes","device+os+ip_app+channel_app+channel_ip",0.0137834598481822
+"66",0,2,"Logistic Regression","ip+device+os+channel+channel_app+channel_ip_app",0.986815821014782
+"67",0,2,"LDA","ip+device+os+channel+channel_app+channel_ip_app",0.970635237714742
+"68",0,2,"SVM","ip+device+os+channel+channel_app+channel_ip_app",0.986616060727127
+"69",0,2,"NaiveBayes","ip+device+os+channel+channel_app+channel_ip_app",0.0137834598481822
+"70",0,2,"Logistic Regression","ip+app+device+os+channel+channel_ip+channel_ip_app",0.986815821014782
+"71",0,2,"LDA","ip+app+device+os+channel+channel_ip+channel_ip_app",0.970435477427087
+"72",0,2,"SVM","ip+app+device+os+channel+channel_ip+channel_ip_app",0.986616060727127
+"73",0,2,"NaiveBayes","ip+app+device+os+channel+channel_ip+channel_ip_app",0.0137834598481822
+"74",0,2,"Logistic Regression","ip+app+device+os+channel+hour+channel_ip+channel_ip_app",0.986815821014782
+"75",0,2,"LDA","ip+app+device+os+channel+hour+channel_ip+channel_ip_app",0.969436675988813
+"76",0,2,"SVM","ip+app+device+os+channel+hour+channel_ip+channel_ip_app",0.986616060727127
+"77",0,2,"NaiveBayes","ip+app+device+os+channel+hour+channel_ip+channel_ip_app",0.0137834598481822
+"78",0,3,"Logistic Regression","ip",0.849225236659792
+"79",0,3,"LDA","ip",0.849225236659792
+"80",0,3,"QDA","ip",0.844809350044952
+"81",0,3,"SVM","ip",0.849225236659792
+"82",0,3,"NaiveBayes","ip",0.849225236659792
+"83",0,3,"Logistic Regression","ip+app",0.849225236659792
+"84",0,3,"LDA","ip+app",0.849225236659792
+"85",0,3,"QDA","ip+app",0.84533819874134
+"86",0,3,"SVM","ip+app",0.849225236659792
+"87",0,3,"NaiveBayes","ip+app",0.849225236659792
+"88",0,3,"Logistic Regression","ip+app+os",0.849225236659792
+"89",0,3,"LDA","ip+app+os",0.849225236659792
+"90",0,3,"QDA","ip+app+os",0.838463165688297
+"91",0,3,"SVM","ip+app+os",0.849225236659792
+"92",0,3,"NaiveBayes","ip+app+os",0.849225236659792
+"93",0,3,"Logistic Regression","ip+app+os+hour",0.849225236659792
+"94",0,3,"LDA","ip+app+os+hour",0.849225236659792
+"95",0,3,"QDA","ip+app+os+hour",0.838040086731186
+"96",0,3,"SVM","ip+app+os+hour",0.849225236659792
+"97",0,3,"NaiveBayes","ip+app+os+hour",0.849225236659792
+"98",0,3,"Logistic Regression","ip+app+os+hour+ip_app",0.849225236659792
+"99",0,3,"LDA","ip+app+os+hour+ip_app",0.849225236659792
+"100",0,3,"QDA","ip+app+os+hour+ip_app",0.803744248770427
+"101",0,3,"SVM","ip+app+os+hour+ip_app",0.849225236659792
+"102",0,3,"NaiveBayes","ip+app+os+hour+ip_app",0.849225236659792
+"103",0,3,"Logistic Regression","ip+app+os+channel+hour+channel_ip",0.849225236659792
+"104",0,3,"LDA","ip+app+os+channel+hour+channel_ip",0.849225236659792
+"105",0,3,"QDA","ip+app+os+channel+hour+channel_ip",0.813871701306256
+"106",0,3,"SVM","ip+app+os+channel+hour+channel_ip",0.849225236659792
+"107",0,3,"NaiveBayes","ip+app+os+channel+hour+channel_ip",0.849225236659792
+"108",0,3,"Logistic Regression","ip+app+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"109",0,3,"LDA","ip+app+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"110",0,3,"QDA","ip+app+os+channel+hour+ip_app+channel_ip",0.792585541276641
+"111",0,3,"SVM","ip+app+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"112",0,3,"NaiveBayes","ip+app+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"113",0,3,"Logistic Regression","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"114",0,3,"LDA","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"115",0,3,"QDA","ip+app+device+os+channel+hour+ip_app+channel_ip",0.224284732138135
+"116",0,3,"SVM","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"117",0,3,"NaiveBayes","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849225236659792
+"118",0,4,"Logistic Regression","ip",0.986873728970235
+"119",0,4,"LDA","ip",0.986873728970235
+"120",0,4,"QDA","ip",0.986873728970235
+"121",0,4,"SVM","ip",0.986873728970235
+"122",0,4,"NaiveBayes","ip",0.0131262710297652
+"123",0,4,"Logistic Regression","ip+channel",0.986873728970235
+"124",0,4,"LDA","ip+channel",0.986873728970235
+"125",0,4,"QDA","ip+channel",0.986873728970235
+"126",0,4,"SVM","ip+channel",0.986873728970235
+"127",0,4,"NaiveBayes","ip+channel",0.0131262710297652
+"128",0,4,"Logistic Regression","ip+channel_app+channel_ip",0.986873728970235
+"129",0,4,"LDA","ip+channel_app+channel_ip",0.986873728970235
+"130",0,4,"QDA","ip+channel_app+channel_ip",0.985764466629691
+"131",0,4,"SVM","ip+channel_app+channel_ip",0.986873728970235
+"132",0,4,"NaiveBayes","ip+channel_app+channel_ip",0.0131262710297652
+"133",0,4,"Logistic Regression","ip+device+channel+channel_ip_app",0.986873728970235
+"134",0,4,"LDA","ip+device+channel+channel_ip_app",0.986873728970235
+"135",0,4,"QDA","ip+device+channel+channel_ip_app",0.985117396931041
+"136",0,4,"SVM","ip+device+channel+channel_ip_app",0.986873728970235
+"137",0,4,"NaiveBayes","ip+device+channel+channel_ip_app",0.0131262710297652
+"138",0,4,"Logistic Regression","ip+device+os+channel+channel_ip",0.986873728970235
+"139",0,4,"LDA","ip+device+os+channel+channel_ip",0.986873728970235
+"140",0,4,"QDA","ip+device+os+channel+channel_ip",0.976982806433722
+"141",0,4,"SVM","ip+device+os+channel+channel_ip",0.986873728970235
+"142",0,4,"NaiveBayes","ip+device+os+channel+channel_ip",0.0131262710297652
+"143",0,4,"Logistic Regression","ip+device+os+channel+hour+channel_ip",0.986873728970235
+"144",0,4,"LDA","ip+device+os+channel+hour+channel_ip",0.986873728970235
+"145",0,4,"QDA","ip+device+os+channel+hour+channel_ip",0.978276945831022
+"146",0,4,"SVM","ip+device+os+channel+hour+channel_ip",0.986873728970235
+"147",0,4,"NaiveBayes","ip+device+os+channel+hour+channel_ip",0.0131262710297652
+"148",0,5,"Logistic Regression","channel",0.823083585967952
+"149",0,5,"LDA","channel",0.823300129926375
+"150",0,5,"QDA","channel",0.823300129926375
+"151",0,5,"SVM","channel",0.823083585967952
+"152",0,5,"NaiveBayes","channel",0.812906019922044
+"153",0,5,"Logistic Regression","channel+channel_ip_app",0.838458207016024
+"154",0,5,"LDA","channel+channel_ip_app",0.851883932438285
+"155",0,5,"QDA","channel+channel_ip_app",0.843222174101343
+"156",0,5,"SVM","channel+channel_ip_app",0.834993503681247
+"157",0,5,"NaiveBayes","channel+channel_ip_app",0.812906019922044
+"158",0,5,"Logistic Regression","channel+channel_ip+channel_ip_app",0.845171069727155
+"159",0,5,"LDA","channel+channel_ip+channel_ip_app",0.848852317020355
+"160",0,5,"QDA","channel+channel_ip+channel_ip_app",0.838674750974448
+"161",0,5,"SVM","channel+channel_ip+channel_ip_app",0.836076223473365
+"162",0,5,"NaiveBayes","channel+channel_ip+channel_ip_app",0.812906019922044
+"163",0,5,"Logistic Regression","channel+channel_app+channel_ip+channel_ip_app",0.852100476396708
+"164",0,5,"LDA","channel+channel_app+channel_ip+channel_ip_app",0.85036812472932
+"165",0,5,"QDA","channel+channel_app+channel_ip+channel_ip_app",0.841922910350801
+"166",0,5,"SVM","channel+channel_app+channel_ip+channel_ip_app",0.851017756604591
+"167",0,5,"NaiveBayes","channel+channel_app+channel_ip+channel_ip_app",0.812906019922044
+"168",0,5,"Logistic Regression","app+channel+channel_app+channel_ip+channel_ip_app",0.855132091814638
+"169",0,5,"LDA","app+channel+channel_app+channel_ip+channel_ip_app",0.851017756604591
+"170",0,5,"QDA","app+channel+channel_app+channel_ip+channel_ip_app",0.845171069727155
+"171",0,5,"SVM","app+channel+channel_app+channel_ip+channel_ip_app",0.851667388479861
+"172",0,5,"NaiveBayes","app+channel+channel_app+channel_ip+channel_ip_app",0.812906019922044
+"173",0,5,"Logistic Regression","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.855348635773062
+"174",0,5,"LDA","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.85339974014725
+"175",0,5,"QDA","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.84733650931139
+"176",0,5,"SVM","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.856214811606756
+"177",0,5,"NaiveBayes","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.812906019922044
+"178",0,5,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.855781723689909
+"179",0,5,"LDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.854265915980944
+"180",0,5,"QDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.849718492854049
+"181",0,5,"SVM","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.854699003897791
+"182",0,5,"NaiveBayes","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.812906019922044
+"183",0,5,"Logistic Regression","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.854915547856215
+"184",0,5,"LDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.853832828064097
+"185",0,5,"QDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.849935036812473
+"186",0,5,"SVM","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.854049372022521
+"187",0,5,"NaiveBayes","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.812906019922044
+"188",0,6,"Logistic Regression","ip",0.980628809365759
+"189",0,6,"LDA","ip",0.980628809365759
+"190",0,6,"QDA","ip",0.980628809365759
+"191",0,6,"SVM","ip",0.980628809365759
+"192",0,6,"NaiveBayes","ip",0.0193711906342405
+"193",0,6,"Logistic Regression","app+ip_app",0.980508116589222
+"194",0,6,"LDA","app+ip_app",0.977189065234446
+"195",0,6,"QDA","app+ip_app",0.969585420312594
+"196",0,6,"SVM","app+ip_app",0.980628809365759
+"197",0,6,"NaiveBayes","app+ip_app",0.0193711906342405
+"198",0,6,"Logistic Regression","app+channel+channel_ip_app",0.980568462977491
+"199",0,6,"LDA","app+channel+channel_ip_app",0.978154607446744
+"200",0,6,"QDA","app+channel+channel_ip_app",0.971395811960654
+"201",0,6,"SVM","app+channel+channel_ip_app",0.980628809365759
+"202",0,6,"NaiveBayes","app+channel+channel_ip_app",0.0193711906342405
+"203",0,6,"Logistic Regression","app+channel+ip_app+channel_app",0.980508116589222
+"204",0,6,"LDA","app+channel+ip_app+channel_app",0.977309758010983
+"205",0,6,"QDA","app+channel+ip_app+channel_app",0.966145676181281
+"206",0,6,"SVM","app+channel+ip_app+channel_app",0.980628809365759
+"207",0,6,"NaiveBayes","app+channel+ip_app+channel_app",0.0193711906342405
+"208",0,6,"Logistic Regression","app+device+channel+ip_app+channel_app",0.980568462977491
+"209",0,6,"LDA","app+device+channel+ip_app+channel_app",0.976826986904834
+"210",0,6,"QDA","app+device+channel+ip_app+channel_app",0.96481805563937
+"211",0,6,"SVM","app+device+channel+ip_app+channel_app",0.980628809365759
+"212",0,6,"NaiveBayes","app+device+channel+ip_app+channel_app",0.0193711906342405
+"213",0,6,"Logistic Regression","app+device+channel+ip_app+channel_app+channel_ip_app",0.980508116589222
+"214",0,6,"LDA","app+device+channel+ip_app+channel_app+channel_ip_app",0.97700802606964
+"215",0,6,"QDA","app+device+channel+ip_app+channel_app+channel_ip_app",0.963430088709191
+"216",0,6,"SVM","app+device+channel+ip_app+channel_app+channel_ip_app",0.980628809365759
+"217",0,6,"NaiveBayes","app+device+channel+ip_app+channel_app+channel_ip_app",0.0193711906342405
+"218",0,6,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.980508116589222
+"219",0,6,"LDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.977249411622714
+"220",0,6,"QDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.961559350672862
+"221",0,6,"SVM","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.980628809365759
+"222",0,6,"NaiveBayes","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.0193711906342405
+"223",0,6,"Logistic Regression","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.980508116589222
+"224",0,6,"LDA","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.97652525496349
+"225",0,6,"QDA","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.960171383742683
+"226",0,6,"SVM","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.980628809365759
+"227",0,6,"NaiveBayes","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.0193711906342405
+"228",0,7,"Logistic Regression","ip",0.711873080859775
+"229",0,7,"LDA","ip",0.72517911975435
+"230",0,7,"QDA","ip",0.741555783009212
+"231",0,7,"SVM","ip",0.72517911975435
+"232",0,7,"NaiveBayes","ip",0.460593654042989
+"233",0,7,"Logistic Regression","ip+device",0.724667349027636
+"234",0,7,"LDA","ip+device",0.724667349027636
+"235",0,7,"QDA","ip+device",0.591095189355169
+"236",0,7,"SVM","ip+device",0.724667349027636
+"237",0,7,"NaiveBayes","ip+device",0.460593654042989
+"238",0,7,"Logistic Regression","device+channel+channel_ip",0.747185261003071
+"239",0,7,"LDA","device+channel+channel_ip",0.747185261003071
+"240",0,7,"QDA","device+channel+channel_ip",0.591095189355169
+"241",0,7,"SVM","device+channel+channel_ip",0.747185261003071
+"242",0,7,"NaiveBayes","device+channel+channel_ip",0.460593654042989
+"243",0,7,"Logistic Regression","device+channel+channel_ip+channel_ip_app",0.748720573183214
+"244",0,7,"LDA","device+channel+channel_ip+channel_ip_app",0.749744114636643
+"245",0,7,"QDA","device+channel+channel_ip+channel_ip_app",0.591606960081883
+"246",0,7,"SVM","device+channel+channel_ip+channel_ip_app",0.749744114636643
+"247",0,7,"NaiveBayes","device+channel+channel_ip+channel_ip_app",0.460593654042989
+"248",0,7,"Logistic Regression","device+os+channel+channel_ip+channel_ip_app",0.752302968270215
+"249",0,7,"LDA","device+os+channel+channel_ip+channel_ip_app",0.752302968270215
+"250",0,7,"QDA","device+os+channel+channel_ip+channel_ip_app",0.654042988741044
+"251",0,7,"SVM","device+os+channel+channel_ip+channel_ip_app",0.752302968270215
+"252",0,7,"NaiveBayes","device+os+channel+channel_ip+channel_ip_app",0.460593654042989
+"253",0,7,"Logistic Regression","device+os+channel+hour+channel_ip+channel_ip_app",0.747185261003071
+"254",0,7,"LDA","device+os+channel+hour+channel_ip+channel_ip_app",0.748720573183214
+"255",0,7,"QDA","device+os+channel+hour+channel_ip+channel_ip_app",0.652507676560901
+"256",0,7,"SVM","device+os+channel+hour+channel_ip+channel_ip_app",0.748720573183214
+"257",0,7,"NaiveBayes","device+os+channel+hour+channel_ip+channel_ip_app",0.460593654042989
+"258",0,7,"Logistic Regression","app+device+os+channel+hour+channel_ip+channel_ip_app",0.751791197543501
+"259",0,7,"LDA","app+device+os+channel+hour+channel_ip+channel_ip_app",0.751279426816786
+"260",0,7,"QDA","app+device+os+channel+hour+channel_ip+channel_ip_app",0.636131013306039
+"261",0,7,"SVM","app+device+os+channel+hour+channel_ip+channel_ip_app",0.750767656090072
+"262",0,7,"NaiveBayes","app+device+os+channel+hour+channel_ip+channel_ip_app",0.460593654042989
+"263",0,7,"Logistic Regression","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.752814738996929
+"264",0,7,"LDA","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.750255885363357
+"265",0,7,"QDA","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.654554759467758
+"266",0,7,"SVM","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.749744114636643
+"267",0,7,"NaiveBayes","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.460593654042989
+"268",1,1,"Logistic Regression","channel_ip",0.828580190125728
+"269",1,1,"LDA","channel_ip",0.832566697332107
+"270",1,1,"QDA","channel_ip",0.835326586936523
+"271",1,1,"SVM","channel_ip",0.831340079730144
+"272",1,1,"NaiveBayes","channel_ip",0.831340079730144
+"273",1,1,"Logistic Regression","channel_ip+channel_ip_app",0.850965961361546
+"274",1,1,"LDA","channel_ip+channel_ip_app",0.84851272615762
+"275",1,1,"QDA","channel_ip+channel_ip_app",0.840233057344373
+"276",1,1,"SVM","channel_ip+channel_ip_app",0.849739343759583
+"277",1,1,"NaiveBayes","channel_ip+channel_ip_app",0.831340079730144
+"278",1,1,"Logistic Regression","device+channel_ip+channel_ip_app",0.849126034958602
+"279",1,1,"LDA","device+channel_ip+channel_ip_app",0.848819380558111
+"280",1,1,"QDA","device+channel_ip+channel_ip_app",0.785955228457528
+"281",1,1,"SVM","device+channel_ip+channel_ip_app",0.849739343759583
+"282",1,1,"NaiveBayes","device+channel_ip+channel_ip_app",0.831340079730144
+"283",1,1,"Logistic Regression","device+channel+channel_ip+channel_ip_app",0.850045998160074
+"284",1,1,"LDA","device+channel+channel_ip+channel_ip_app",0.849126034958602
+"285",1,1,"QDA","device+channel+channel_ip+channel_ip_app",0.754676479607482
+"286",1,1,"SVM","device+channel+channel_ip+channel_ip_app",0.850352652560564
+"287",1,1,"NaiveBayes","device+channel+channel_ip+channel_ip_app",0.831340079730144
+"288",1,1,"Logistic Regression","ip+device+channel+channel_ip+channel_ip_app",0.850659306961055
+"289",1,1,"LDA","ip+device+channel+channel_ip+channel_ip_app",0.850965961361546
+"290",1,1,"QDA","ip+device+channel+channel_ip+channel_ip_app",0.680159460288255
+"291",1,1,"SVM","ip+device+channel+channel_ip+channel_ip_app",0.849739343759583
+"292",1,1,"NaiveBayes","ip+device+channel+channel_ip+channel_ip_app",0.831340079730144
+"293",1,1,"Logistic Regression","ip+device+channel+channel_app+channel_ip+channel_ip_app",0.850352652560564
+"294",1,1,"LDA","ip+device+channel+channel_app+channel_ip+channel_ip_app",0.850965961361546
+"295",1,1,"QDA","ip+device+channel+channel_app+channel_ip+channel_ip_app",0.733210671573137
+"296",1,1,"SVM","ip+device+channel+channel_app+channel_ip+channel_ip_app",0.850045998160074
+"297",1,1,"NaiveBayes","ip+device+channel+channel_app+channel_ip+channel_ip_app",0.831340079730144
+"298",1,1,"Logistic Regression","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.850352652560564
+"299",1,1,"LDA","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.850659306961055
+"300",1,1,"QDA","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.773382398037412
+"301",1,1,"SVM","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.850659306961055
+"302",1,1,"NaiveBayes","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.831340079730144
+"303",1,1,"Logistic Regression","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.850045998160074
+"304",1,1,"LDA","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.850659306961055
+"305",1,1,"QDA","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.416436675866299
+"306",1,1,"SVM","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.850045998160074
+"307",1,1,"NaiveBayes","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.831340079730144
+"308",1,2,"Logistic Regression","channel_ip",0.988411588411588
+"309",1,2,"LDA","channel_ip",0.988411588411588
+"310",1,2,"QDA","channel_ip",0.988411588411588
+"311",1,2,"SVM","channel_ip",0.988411588411588
+"312",1,2,"NaiveBayes","channel_ip",0.0115884115884116
+"313",1,2,"Logistic Regression","app+ip_app",0.988811188811189
+"314",1,2,"LDA","app+ip_app",0.975624375624376
+"315",1,2,"QDA","app+ip_app",0.977022977022977
+"316",1,2,"SVM","app+ip_app",0.988411588411588
+"317",1,2,"NaiveBayes","app+ip_app",0.0115884115884116
+"318",1,2,"Logistic Regression","app+device+ip_app",0.989210789210789
+"319",1,2,"LDA","app+device+ip_app",0.980819180819181
+"320",1,2,"QDA","app+device+ip_app",0.990809190809191
+"321",1,2,"SVM","app+device+ip_app",0.988811188811189
+"322",1,2,"NaiveBayes","app+device+ip_app",0.0115884115884116
+"323",1,2,"Logistic Regression","device+ip_app+channel_app+channel_ip",0.989010989010989
+"324",1,2,"LDA","device+ip_app+channel_app+channel_ip",0.976423576423576
+"325",1,2,"QDA","device+ip_app+channel_app+channel_ip",0.984615384615385
+"326",1,2,"SVM","device+ip_app+channel_app+channel_ip",0.988811188811189
+"327",1,2,"NaiveBayes","device+ip_app+channel_app+channel_ip",0.0115884115884116
+"328",1,2,"Logistic Regression","device+os+ip_app+channel_app+channel_ip",0.989010989010989
+"329",1,2,"LDA","device+os+ip_app+channel_app+channel_ip",0.975624375624376
+"330",1,2,"QDA","device+os+ip_app+channel_app+channel_ip",0.983816183816184
+"331",1,2,"SVM","device+os+ip_app+channel_app+channel_ip",0.988811188811189
+"332",1,2,"NaiveBayes","device+os+ip_app+channel_app+channel_ip",0.0115884115884116
+"333",1,2,"Logistic Regression","device+os+hour+ip_app+channel_app+channel_ip",0.989010989010989
+"334",1,2,"LDA","device+os+hour+ip_app+channel_app+channel_ip",0.975424575424575
+"335",1,2,"QDA","device+os+hour+ip_app+channel_app+channel_ip",0.983816183816184
+"336",1,2,"SVM","device+os+hour+ip_app+channel_app+channel_ip",0.988811188811189
+"337",1,2,"NaiveBayes","device+os+hour+ip_app+channel_app+channel_ip",0.0115884115884116
+"338",1,2,"Logistic Regression","ip+app+device+os+channel+hour+channel_ip_app",0.989010989010989
+"339",1,2,"LDA","ip+app+device+os+channel+hour+channel_ip_app",0.975424575424575
+"340",1,2,"SVM","ip+app+device+os+channel+hour+channel_ip_app",0.988811188811189
+"341",1,2,"NaiveBayes","ip+app+device+os+channel+hour+channel_ip_app",0.0115884115884116
+"342",1,2,"Logistic Regression","ip+app+device+os+channel+hour+ip_app+channel_ip",0.989010989010989
+"343",1,2,"LDA","ip+app+device+os+channel+hour+ip_app+channel_ip",0.975424575424575
+"344",1,2,"SVM","ip+app+device+os+channel+hour+ip_app+channel_ip",0.988811188811189
+"345",1,2,"NaiveBayes","ip+app+device+os+channel+hour+ip_app+channel_ip",0.0115884115884116
+"346",1,3,"Logistic Regression","ip",0.849110075219833
+"347",1,3,"LDA","ip",0.849110075219833
+"348",1,3,"QDA","ip",0.843680474626549
+"349",1,3,"SVM","ip",0.849110075219833
+"350",1,3,"NaiveBayes","ip",0.849110075219833
+"351",1,3,"Logistic Regression","ip+app",0.849110075219833
+"352",1,3,"LDA","ip+app",0.849110075219833
+"353",1,3,"QDA","ip+app",0.843918847335523
+"354",1,3,"SVM","ip+app",0.849110075219833
+"355",1,3,"NaiveBayes","ip+app",0.849110075219833
+"356",1,3,"Logistic Regression","ip+app+os",0.849110075219833
+"357",1,3,"LDA","ip+app+os",0.849110075219833
+"358",1,3,"QDA","ip+app+os",0.834383938976586
+"359",1,3,"SVM","ip+app+os",0.849110075219833
+"360",1,3,"NaiveBayes","ip+app+os",0.849110075219833
+"361",1,3,"Logistic Regression","ip+app+os+ip_app",0.849110075219833
+"362",1,3,"LDA","ip+app+os+ip_app",0.849110075219833
+"363",1,3,"QDA","ip+app+os+ip_app",0.79725076808984
+"364",1,3,"SVM","ip+app+os+ip_app",0.849110075219833
+"365",1,3,"NaiveBayes","ip+app+os+ip_app",0.849110075219833
+"366",1,3,"Logistic Regression","ip+app+os+hour+ip_app",0.849110075219833
+"367",1,3,"LDA","ip+app+os+hour+ip_app",0.849110075219833
+"368",1,3,"QDA","ip+app+os+hour+ip_app",0.797727513507787
+"369",1,3,"SVM","ip+app+os+hour+ip_app",0.849110075219833
+"370",1,3,"NaiveBayes","ip+app+os+hour+ip_app",0.849110075219833
+"371",1,3,"Logistic Regression","ip+app+device+os+hour+ip_app",0.849110075219833
+"372",1,3,"LDA","ip+app+device+os+hour+ip_app",0.849110075219833
+"373",1,3,"QDA","ip+app+device+os+hour+ip_app",0.202908147049476
+"374",1,3,"SVM","ip+app+device+os+hour+ip_app",0.849110075219833
+"375",1,3,"NaiveBayes","ip+app+device+os+hour+ip_app",0.849110075219833
+"376",1,3,"Logistic Regression","ip+app+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"377",1,3,"LDA","ip+app+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"378",1,3,"QDA","ip+app+os+channel+hour+ip_app+channel_ip",0.787503972878483
+"379",1,3,"SVM","ip+app+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"380",1,3,"NaiveBayes","ip+app+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"381",1,3,"Logistic Regression","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"382",1,3,"LDA","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"383",1,3,"QDA","ip+app+device+os+channel+hour+ip_app+channel_ip",0.205106473143341
+"384",1,3,"SVM","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"385",1,3,"NaiveBayes","ip+app+device+os+channel+hour+ip_app+channel_ip",0.849110075219833
+"386",1,4,"Logistic Regression","ip_app",0.987052621844077
+"387",1,4,"LDA","ip_app",0.987052621844077
+"388",1,4,"QDA","ip_app",0.987052621844077
+"389",1,4,"SVM","ip_app",0.987052621844077
+"390",1,4,"NaiveBayes","ip_app",0.0129473781559234
+"391",1,4,"Logistic Regression","channel_app+channel_ip",0.987052621844077
+"392",1,4,"LDA","channel_app+channel_ip",0.987052621844077
+"393",1,4,"QDA","channel_app+channel_ip",0.987052621844077
+"394",1,4,"SVM","channel_app+channel_ip",0.987052621844077
+"395",1,4,"NaiveBayes","channel_app+channel_ip",0.0129473781559234
+"396",1,4,"Logistic Regression","device+channel_app+channel_ip",0.987052621844077
+"397",1,4,"LDA","device+channel_app+channel_ip",0.987052621844077
+"398",1,4,"QDA","device+channel_app+channel_ip",0.97798945713493
+"399",1,4,"SVM","device+channel_app+channel_ip",0.987052621844077
+"400",1,4,"NaiveBayes","device+channel_app+channel_ip",0.0129473781559234
+"401",1,4,"Logistic Regression","device+channel+hour+channel_ip",0.987052621844077
+"402",1,4,"LDA","device+channel+hour+channel_ip",0.987052621844077
+"403",1,4,"QDA","device+channel+hour+channel_ip",0.978081938407472
+"404",1,4,"SVM","device+channel+hour+channel_ip",0.987052621844077
+"405",1,4,"NaiveBayes","device+channel+hour+channel_ip",0.0129473781559234
+"406",1,4,"Logistic Regression","ip+device+channel+hour+channel_ip",0.987052621844077
+"407",1,4,"LDA","ip+device+channel+hour+channel_ip",0.987052621844077
+"408",1,4,"QDA","ip+device+channel+hour+channel_ip",0.977342088227134
+"409",1,4,"SVM","ip+device+channel+hour+channel_ip",0.987052621844077
+"410",1,4,"NaiveBayes","ip+device+channel+hour+channel_ip",0.0129473781559234
+"411",1,4,"Logistic Regression","ip+device+os+channel+hour+channel_ip",0.987052621844077
+"412",1,4,"LDA","ip+device+os+channel+hour+channel_ip",0.987052621844077
+"413",1,4,"QDA","ip+device+os+channel+hour+channel_ip",0.976972163136965
+"414",1,4,"SVM","ip+device+os+channel+hour+channel_ip",0.987052621844077
+"415",1,4,"NaiveBayes","ip+device+os+channel+hour+channel_ip",0.0129473781559234
+"416",1,5,"Logistic Regression","channel",0.818872017353579
+"417",1,5,"LDA","channel",0.818655097613883
+"418",1,5,"QDA","channel",0.818655097613883
+"419",1,5,"SVM","channel",0.818872017353579
+"420",1,5,"NaiveBayes","channel",0.821475054229935
+"421",1,5,"Logistic Regression","channel+channel_ip_app",0.835357917570499
+"422",1,5,"LDA","channel+channel_ip_app",0.841431670281996
+"423",1,5,"QDA","channel+channel_ip_app",0.835574837310195
+"424",1,5,"SVM","channel+channel_ip_app",0.829501084598699
+"425",1,5,"NaiveBayes","channel+channel_ip_app",0.821475054229935
+"426",1,5,"Logistic Regression","channel+channel_ip+channel_ip_app",0.834273318872017
+"427",1,5,"LDA","channel+channel_ip+channel_ip_app",0.839045553145336
+"428",1,5,"QDA","channel+channel_ip+channel_ip_app",0.830151843817787
+"429",1,5,"SVM","channel+channel_ip+channel_ip_app",0.83058568329718
+"430",1,5,"NaiveBayes","channel+channel_ip+channel_ip_app",0.821475054229935
+"431",1,5,"Logistic Regression","channel+channel_app+channel_ip+channel_ip_app",0.848373101952278
+"432",1,5,"LDA","channel+channel_app+channel_ip+channel_ip_app",0.844902386117137
+"433",1,5,"QDA","channel+channel_app+channel_ip+channel_ip_app",0.837093275488069
+"434",1,5,"SVM","channel+channel_app+channel_ip+channel_ip_app",0.848156182212581
+"435",1,5,"NaiveBayes","channel+channel_app+channel_ip+channel_ip_app",0.821475054229935
+"436",1,5,"Logistic Regression","app+channel+channel_app+channel_ip+channel_ip_app",0.849674620390455
+"437",1,5,"LDA","app+channel+channel_app+channel_ip+channel_ip_app",0.843383947939263
+"438",1,5,"QDA","app+channel+channel_app+channel_ip+channel_ip_app",0.838611713665944
+"439",1,5,"SVM","app+channel+channel_app+channel_ip+channel_ip_app",0.84880694143167
+"440",1,5,"NaiveBayes","app+channel+channel_app+channel_ip+channel_ip_app",0.821475054229935
+"441",1,5,"Logistic Regression","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.850108459869848
+"442",1,5,"LDA","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.846637744034707
+"443",1,5,"QDA","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.842516268980477
+"444",1,5,"SVM","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.85119305856833
+"445",1,5,"NaiveBayes","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.821475054229935
+"446",1,5,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.850759219088937
+"447",1,5,"LDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.846637744034707
+"448",1,5,"QDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.844251626898048
+"449",1,5,"SVM","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.850542299349241
+"450",1,5,"NaiveBayes","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.821475054229935
+"451",1,5,"Logistic Regression","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.850759219088937
+"452",1,5,"LDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.846854663774403
+"453",1,5,"QDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.844902386117137
+"454",1,5,"SVM","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.85119305856833
+"455",1,5,"NaiveBayes","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.821475054229935
+"456",1,6,"Logistic Regression","ip",0.979917983355446
+"457",1,6,"LDA","ip",0.979917983355446
+"458",1,6,"QDA","ip",0.979917983355446
+"459",1,6,"SVM","ip",0.979917983355446
+"460",1,6,"NaiveBayes","ip",0.0200820166445543
+"461",1,6,"Logistic Regression","app+ip_app",0.979737064286576
+"462",1,6,"LDA","app+ip_app",0.975274393921119
+"463",1,6,"QDA","app+ip_app",0.967736099384875
+"464",1,6,"SVM","app+ip_app",0.979917983355446
+"465",1,6,"NaiveBayes","app+ip_app",0.0200820166445543
+"466",1,6,"Logistic Regression","app+channel+ip_app",0.979737064286576
+"467",1,6,"LDA","app+channel+ip_app",0.975214087564829
+"468",1,6,"QDA","app+channel+ip_app",0.967796405741165
+"469",1,6,"SVM","app+channel+ip_app",0.979917983355446
+"470",1,6,"NaiveBayes","app+channel+ip_app",0.0200820166445543
+"471",1,6,"Logistic Regression","app+channel+ip_app+channel_app",0.979857676999156
+"472",1,6,"LDA","app+channel+ip_app+channel_app",0.974972862139669
+"473",1,6,"QDA","app+channel+ip_app+channel_app",0.962368833675069
+"474",1,6,"SVM","app+channel+ip_app+channel_app",0.979978289711736
+"475",1,6,"NaiveBayes","app+channel+ip_app+channel_app",0.0200820166445543
+"476",1,6,"Logistic Regression","app+device+channel+ip_app+channel_app",0.979857676999156
+"477",1,6,"LDA","app+device+channel+ip_app+channel_app",0.97443010493306
+"478",1,6,"QDA","app+device+channel+ip_app+channel_app",0.959293209504282
+"479",1,6,"SVM","app+device+channel+ip_app+channel_app",0.979978289711736
+"480",1,6,"NaiveBayes","app+device+channel+ip_app+channel_app",0.0200820166445543
+"481",1,6,"Logistic Regression","app+device+channel+ip_app+channel_app+channel_ip_app",0.979857676999156
+"482",1,6,"LDA","app+device+channel+ip_app+channel_app+channel_ip_app",0.975153781208539
+"483",1,6,"QDA","app+device+channel+ip_app+channel_app+channel_ip_app",0.959293209504282
+"484",1,6,"SVM","app+device+channel+ip_app+channel_app+channel_ip_app",0.980038596068026
+"485",1,6,"NaiveBayes","app+device+channel+ip_app+channel_app+channel_ip_app",0.0200820166445543
+"486",1,6,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.979917983355446
+"487",1,6,"LDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.975153781208539
+"488",1,6,"QDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.958026776022193
+"489",1,6,"SVM","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.979917983355446
+"490",1,6,"NaiveBayes","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.0200820166445543
+"491",1,6,"Logistic Regression","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.979917983355446
+"492",1,6,"LDA","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.97455071764564
+"493",1,6,"QDA","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.957182487034133
+"494",1,6,"SVM","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.979917983355446
+"495",1,6,"NaiveBayes","ip+app+device+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.0200820166445543
+"496",1,7,"Logistic Regression","ip",0.722306525037936
+"497",1,7,"LDA","ip",0.727870510875063
+"498",1,7,"QDA","ip",0.745574102175013
+"499",1,7,"SVM","ip",0.727870510875063
+"500",1,7,"NaiveBayes","ip",0.465857359635812
+"501",1,7,"Logistic Regression","ip+device",0.732928679817906
+"502",1,7,"LDA","ip+device",0.733940313606474
+"503",1,7,"QDA","ip+device",0.585230146686899
+"504",1,7,"SVM","ip+device",0.733940313606474
+"505",1,7,"NaiveBayes","ip+device",0.465857359635812
+"506",1,7,"Logistic Regression","device+channel+channel_ip",0.752149721800708
+"507",1,7,"LDA","device+channel+channel_ip",0.75113808801214
+"508",1,7,"QDA","device+channel+channel_ip",0.585735963581184
+"509",1,7,"SVM","device+channel+channel_ip",0.75113808801214
+"510",1,7,"NaiveBayes","device+channel+channel_ip",0.465857359635812
+"511",1,7,"Logistic Regression","device+channel+channel_ip+channel_ip_app",0.742033383915023
+"512",1,7,"LDA","device+channel+channel_ip+channel_ip_app",0.74405665149216
+"513",1,7,"QDA","device+channel+channel_ip+channel_ip_app",0.584724329792615
+"514",1,7,"SVM","device+channel+channel_ip+channel_ip_app",0.74405665149216
+"515",1,7,"NaiveBayes","device+channel+channel_ip+channel_ip_app",0.465857359635812
+"516",1,7,"Logistic Regression","device+os+channel+channel_ip+channel_ip_app",0.742033383915023
+"517",1,7,"LDA","device+os+channel+channel_ip+channel_ip_app",0.746585735963581
+"518",1,7,"QDA","device+os+channel+channel_ip+channel_ip_app",0.645928174001012
+"519",1,7,"SVM","device+os+channel+channel_ip+channel_ip_app",0.746585735963581
+"520",1,7,"NaiveBayes","device+os+channel+channel_ip+channel_ip_app",0.465857359635812
+"521",1,7,"Logistic Regression","device+os+channel+hour+channel_ip+channel_ip_app",0.742033383915023
+"522",1,7,"LDA","device+os+channel+hour+channel_ip+channel_ip_app",0.741527567020739
+"523",1,7,"QDA","device+os+channel+hour+channel_ip+channel_ip_app",0.65402124430956
+"524",1,7,"SVM","device+os+channel+hour+channel_ip+channel_ip_app",0.741527567020739
+"525",1,7,"NaiveBayes","device+os+channel+hour+channel_ip+channel_ip_app",0.465857359635812
+"526",1,7,"Logistic Regression","app+device+os+channel+hour+channel_ip+channel_ip_app",0.743550834597876
+"527",1,7,"LDA","app+device+os+channel+hour+channel_ip+channel_ip_app",0.742539200809307
+"528",1,7,"QDA","app+device+os+channel+hour+channel_ip+channel_ip_app",0.644916540212443
+"529",1,7,"SVM","app+device+os+channel+hour+channel_ip+channel_ip_app",0.742033383915023
+"530",1,7,"NaiveBayes","app+device+os+channel+hour+channel_ip+channel_ip_app",0.465857359635812
+"531",1,7,"Logistic Regression","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.74405665149216
+"532",1,7,"LDA","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.74405665149216
+"533",1,7,"QDA","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.655538694992413
+"534",1,7,"SVM","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.74405665149216
+"535",1,7,"NaiveBayes","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.465857359635812

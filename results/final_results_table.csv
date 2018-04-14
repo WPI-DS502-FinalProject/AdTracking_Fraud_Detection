@@ -1,0 +1,8 @@
+"","branch","model","predictors","accuracy"
+"1",1,"Logistic Regression","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.974321837432184
+"2",2,"QDA","app+device+ip_app",0.948992312487014
+"3",3,"Logistic Regression","ip",0.994326784614125
+"4",4,"Logistic Regression","ip",0.59764343243512
+"5",5,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.938806277486064
+"6",6,"Logistic Regression","ip",0.542989571263036
+"7",7,"QDA","ip",0.783061335210194
