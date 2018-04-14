@@ -2,6 +2,8 @@ library(leaps)
 library(MASS)
 library(class)
 
+sy
+
 #Constants
 NUM_FILES = 1    #Number of files to use
 PER = 0.8        #Percent for training/testing set
@@ -86,78 +88,84 @@ for(file_num in c(0:NUM_FILES)){
     
     #Subset Selection: Building list of chosen Predictors
     pred_list=character()
+    pred_rawlist=list()
     for(pred_index in c(1:length(regfit.summary$outmat[, 1]))){
       inds=which(regfit.summary$outmat[pred_index,] %in% c("*"))
       pred_string=paste("is_attributed~", paste(colnames(regfit.summary$outmat)[inds], collapse = '+'), sep="")
+      pred_rawlist=as.list(colnames(regfit.summary$outmat)[inds])
       pred_list=c(pred_list, pred_string)
     }
     
     #Training and Testing Models: using subset selection predictor list
     for(i in c(1:length(pred_list))){
     tryCatch({
-      
+
       #Logistic Regression:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "Logistic Regression")
       message(msg)
-      
+
       #Logistic Regression: Train Model
       branch_logreg = glm(pred_list[i], data=branch_data, family = "binomial", subset = branch_index)
-      
+
       #Logistic Regression: Test Model
       branch_probs=predict(branch_logreg, newdata=branch_test, type="response")
       branch_pred =rep(1, length(branch_probs))#Error
       branch_pred[branch_probs > 0.5] = 0
       branch_mean=mean(branch_pred != branch_test$is_attributed)
-      
+
       #Logistic Regression: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression", predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-    }, error = function(e) {})
+    }, error = function(e) {message("Logistic Failed")})
     tryCatch({
       #LDA:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "LDA")
       message(msg)
-      
+
       #LDA: Train Model
       branch_LDA=lda(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
-      
+
       #LDA: Test Model
       branch_probs=predict(branch_LDA, newdata=branch_test)
       branch_pred =rep(1, length(branch_probs$posterior))#Error
       branch_pred[branch_probs$posterior[,2] > 0.5] = 0
       branch_mean=mean(branch_pred != branch_test$is_attributed)
-      
+
       #LDA: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-    }, error = function(e) {})
+    }, error = function(e) {message("LDA Failed")})
     tryCatch({
       #QDA:
       msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "QDA")
       message(msg)
-      
+
       #QDA: Train Model
       branch_QDA=qda(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
-      
+
       #QDA: Test Model
       branch_probs=predict(branch_QDA, newdata=branch_test)
       branch_pred =rep(1, length(branch_probs$posterior))#Error
       branch_pred[branch_probs$posterior[,2] > 0.5] = 0
       branch_mean=mean(branch_pred != branch_test$is_attributed)
-      
+
       #QDA: Save Result
       results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-    }, error = function(e) {})
-    }
-    
+    }, error = function(e) {message("QDA Failed")})
+      for(k in 12:12){
       # KNN
-      #      msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "KNN")
-      #      message(msg)
-      # How do we can select the K in this case? # This is a special case. We need to build a good framework
-      #      train.Attributed=cbind(branch_data$is_attributed[branch_index])
-      #      branch_knn = knn(branch_train, branch_test, train.Attributed, k = 1)
-      #      branch_mean=mean(branch_knn == branch_test$is_attributed)
-      
-      #KNN: Save Result
-      #      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="KNN",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
+      tryCatch({      
+        msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s%d",branch_num, i, pred_list[i], "KNN", k)
+        message(msg)
+        
+        train.Attributed=cbind(branch_data$is_attributed[branch_index])
+        predix = unlist(pred_rawlist[[i]])
+        branch_knn = knn(branch_train[predix], branch_test[predix], train.Attributed, k = k)
+        branch_mean=mean(branch_knn == branch_test$is_attributed)
+        
+        #KNN: Save Result
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model=paste("KNN", k),predictors=substring(pred_list[i], 15), accuracy=branch_mean))
+      }, error = function(e) {message("KNN Failed")})
+      }
+    }
       
   }
 }
