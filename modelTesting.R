@@ -147,3 +147,9 @@ final_balance_table$totalPer=(final_balance_table$human + final_balance_table$bo
 #Total Accuracy
 total_accuracy=sum(final_balance_table$totalPer * final_results_table$accuracy)
 total_accuracy
+
+write.csv(final_balance_table, file="./results/final_balance_table.csv")
+write.csv(final_results_table, file="./results/final_results_table.csv")
+
+final_values=data.frame(BEST_FILE=BEST_FILE, total_accuracy=total_accuracy)
+write.csv(final_values, file="./results/final_values.csv")

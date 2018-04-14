@@ -25,3 +25,6 @@ for(file_num in c(0:NUM_FILES)){
 }
 
 BEST_FILE=which.max(avr_per_file_table$accuracy)-1
+
+write.csv(pred_per_model_table, file="./results/pred_per_model_table.csv")
+write.csv(avr_per_file_table, file="./results/avr_per_file_table.csv")

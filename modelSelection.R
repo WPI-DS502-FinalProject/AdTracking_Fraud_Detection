@@ -153,3 +153,6 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   testing_models[[branch_num]] = training_models[[(branch_num-1)*MODEL_TOTAL+which(unique(test_results_table$model) %in% temp_table[which.max(temp_table$accuracy),]$model)]]
 }
 model_per_branch_table
+
+write.csv(test_results_table, file="./results/test_results_table.csv")
+write.csv(model_per_branch_table, file="./results/model_per_branch_table.csv")

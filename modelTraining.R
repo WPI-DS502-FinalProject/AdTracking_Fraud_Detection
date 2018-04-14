@@ -207,3 +207,6 @@ for(file_num in c(0:NUM_FILES)){
     }
   }
 }
+
+write.csv(results_table, file="./results/results_table.csv")
+write.csv(balance_table, file="./results/balance_table.csv")
