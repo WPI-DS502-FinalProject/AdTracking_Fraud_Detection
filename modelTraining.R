@@ -175,13 +175,11 @@ for(file_num in c(0:NUM_FILES)){
         message(msg)
         
         #NaiveBayes: Train Model
-        branch_NB <- naiveBayes(as.factor(is_attributed)~app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app, data = branch_train, subset = branch_index)
-        branch_NB <- naiveBayes(paste("as.factor(is_attributed) ~ app + device + os + channel + hour + channel_app + channel_ip + channel_ip_app"), data = branch_train, subset = branch_index)
+        branch_NB <- naiveBayes(as.formula(paste("as.factor(is_attributed)~", substring(pred_list[i], 15),sep="")), data = branch_train, subset = branch_index)
         
         #NaiveBayes: Test Model
         branch_probs=predict(branch_NB, newdata=branch_test)
         branch_pred =rep(1, length(branch_probs))#Error
-        branch_pred[branch_probs > 0.5] = 0
         branch_mean=mean(branch_pred != branch_test$is_attributed)
         
         #NaiveBayes: Save Result
