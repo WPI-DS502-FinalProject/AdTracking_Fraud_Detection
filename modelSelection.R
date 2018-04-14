@@ -7,7 +7,7 @@ NUM_FILES = 5    #Number of files to use
 BRANCH_TOTAL = 7 #Number of branches
 
 #Results Table: Initialize
-test_results_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
+test_results_table=data.frame(branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
 
 extractFeature <- function(origData){
   origData$attributed_time <- NULL
@@ -56,7 +56,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_mean=mean(branch_pred != branch_data$is_attributed)
   
   #Logistic Regression: Save Result
-  test_results_table=rbind(test_results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean))
 
   #LDA:
   #LDA: Assign Predictor
@@ -72,7 +72,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_mean=mean(branch_pred != branch_data$is_attributed)
   
   #LDA: Save Result
-  test_results_table=rbind(test_results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean))
 
   #QDA:
   #QDA: Assign Predictor
@@ -88,17 +88,15 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_mean=mean(branch_pred != branch_data$is_attributed)
   
   #QDA: Save Result
-  test_results_table=rbind(test_results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean))
 }
 
 #Best model per branch Table: Initialize
 model_per_branch_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
 
 #Pick Models
-for(file_num in c(1:NUM_FILES)){
-  for(branch_num in c(1:BRANCH_TOTAL)){
-      temp_table=test_results_table[(test_results_table==file_num)&(test_results_table$branch==branch_num),]
-      model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy),])
-  }
+for(branch_num in c(1:BRANCH_TOTAL)){
+    temp_table=test_results_table[(test_results_table$branch==branch_num),]
+    model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy),])
 }
 model_per_branch_table
