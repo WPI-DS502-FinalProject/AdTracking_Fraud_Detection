@@ -3,8 +3,6 @@ library(MASS)
 library(class)
 
 #Constants
-NUM_FILES = 1    #Number of files to use
-PER = 0.8        #Percent for training/testing set
 BRANCH_TOTAL = 7 #Number of branches
 
 extractFeature <- function(origData){
@@ -22,7 +20,9 @@ extractFeature <- function(origData){
 origData=read.csv(file=paste("./data/t1p60_subsamples/sub_", BEST_FILE,".csv", sep=""))
 names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
 origData <- extractFeature(origData) 
-  
+
+training_models=list()
+
 for(branch_num in c(1:BRANCH_TOTAL)){
   #Create Branches:
   branch_data = switch(
@@ -41,42 +41,42 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
   #Logistic Regression:
   #Logistic Regression: Assign Predictor
-  pred=pred_per_model_table[(pred_per_model_table$model=="Logistic Regression")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="Logistic Regression")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred, "Logistic Regression")
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "Logistic Regression")
   message(msg)
   
   #Logistic Regression: Train Model
-  branch_logreg = glm(pred, data=branch_data, family = "binomial", subset = branch_index)
+  branch_logreg = glm(paste("is_attributed~",pred,collapse=""), data=branch_data, family = "binomial", subset = branch_index)
   
   #Logistic Regression: Save Model
-  results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression", predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-  
+  training_models[[(branch_num-1)*3+1]]=branch_logreg
+
   #LDA:
   #LDA: Assign Predictor
-  pred=pred_per_model_table[(pred_per_model_table$model=="LDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="LDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "LDA")
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "LDA")
   message(msg)
   
   #LDA: Train Model
-  branch_LDA=lda(as.formula(pred), data=branch_data, subset=branch_index)
+  branch_LDA=lda(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
   
   #LDA: Save Result
-  results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-
+  training_models[[(branch_num-1)*3+2]]=branch_LDA
+  
   #QDA:
   #QDA: Assign Predictor
-  pred=pred_per_model_table[(pred_per_model_table$model=="QDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="QDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "QDA")
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "QDA")
   message(msg)
   
   #QDA: Train Model
-  branch_QDA=qda(as.formula(pred), data=branch_data, subset=branch_index)
+  branch_QDA=qda(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
   
 
   #QDA: Save Result
-  results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
+  training_models[[(branch_num-1)*3+3]]=branch_QDA
 }
 

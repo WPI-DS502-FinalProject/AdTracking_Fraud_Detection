@@ -1,9 +1,13 @@
+library(leaps)
+library(MASS)
+library(class)
+
 #Constants
-NUM_FILES = 1    #Number of files to use
+NUM_FILES = 5    #Number of files to use
 BRANCH_TOTAL = 7 #Number of branches
 
-#Best model per branch Table: Initialize
-model_per_branch_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
+#Results Table: Initialize
+test_results_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
 
 extractFeature <- function(origData){
   origData$attributed_time <- NULL
@@ -16,97 +20,84 @@ extractFeature <- function(origData){
   return (origData)
 }
 
-for(file_num in c(1:NUM_FILES)){
-  #Load Data
-  if(file_num=1)  origData=read.csv(file="./data/t2p20/ones.csv")
-  else            origData=read.csv(file=paste("./data/t2p20/zeros_", file_num,".csv", sep=""))
+#Load Data
+origData=read.csv(file="./data/t2p20/ones.csv")
+names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
+for(file_num in c(0:NUM_FILES)){
+  newData=read.csv(file=paste("./data/t2p20/zeros_", file_num,".csv", sep=""))
+  names(newData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
+  origData=rbind(origData,newData)
+}
+origData <- extractFeature(origData) 
   
-  names(origData) = c('ip', 'app', 'device', 'os', 'channel','click_time', 'attributed_time', 'is_attributed')
-  origData <- extractFeature(origData) 
+for(branch_num in c(1:BRANCH_TOTAL)){
+  #Create Branches:
+  branch_data = switch(
+    branch_num,
+    origData[((origData$app< 18.5) & (origData$channel< 114.5) & (origData$channel< 112)),],
+    origData[((origData$app< 18.5) & (origData$channel< 114.5) & (origData$channel>=112)),],
+    origData[((origData$app< 18.5) & (origData$channel>=114.5)),],
+    origData[((origData$app>=18.5) & (origData$app< 19.5)),],
+    origData[((origData$app>=18.5) & (origData$app>=19.5) & (origData$app< 28.5)),],
+    origData[((origData$app>=18.5) & (origData$app>=19.5) & (origData$app>=28.5) & (origData$channel< 345)),],
+    origData[((origData$app>=18.5) & (origData$app>=19.5) & (origData$app>=28.5) & (origData$channel>=345)),])
   
-  for(branch_num in c(1:BRANCH_TOTAL)){
-    #Create Branches:
-    branch_data = switch(
-      branch_num,
-      origData[((origData$app< 18.5) & (origData$channel< 114.5) & (origData$channel< 112)),],
-      origData[((origData$app< 18.5) & (origData$channel< 114.5) & (origData$channel>=112)),],
-      origData[((origData$app< 18.5) & (origData$channel>=114.5)),],
-      origData[((origData$app>=18.5) & (origData$app< 19.5)),],
-      origData[((origData$app>=18.5) & (origData$app>=19.5) & (origData$app< 28.5)),],
-      origData[((origData$app>=18.5) & (origData$app>=19.5) & (origData$app>=28.5) & (origData$channel< 345)),],
-      origData[((origData$app>=18.5) & (origData$app>=19.5) & (origData$app>=28.5) & (origData$channel>=345)),])
-    
-    #Training and Testing Models: using subset selection predictor list
-    for(i in c(1:length(pred_list))){
-      #Logistic Regression:
-      msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "Logistic Regression")
-      message(msg)
-      
-      #Logistic Regression: Train Model
-      branch_logreg = glm(pred_list[i], data=branch_data, family = "binomial", subset = branch_index)
-      
-      #Logistic Regression: Test Model
-      branch_probs=predict(branch_logreg, newdata=branch_test, type="response")
-      branch_pred =rep(1, length(branch_probs))#Error
-      branch_pred[branch_probs > 0.5] = 0
-      branch_mean=mean(branch_pred != branch_test$is_attributed)
-      
-      #Logistic Regression: Save Result
-      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
-      #LDA:
-      msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "LDA")
-      message(msg)
-      
-      #LDA: Train Model
-      branch_LDA=lda(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
-      
-      #LDA: Test Model
-      branch_probs=predict(branch_LDA, newdata=branch_test)
-      branch_pred =rep(1, length(branch_probs$posterior))#Error
-      branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-      branch_mean=mean(branch_pred != branch_test$is_attributed)
-      
-      #LDA: Save Result
-      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
-      #QDA:
-      msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "QDA")
-      message(msg)
-      
-      #QDA: Train Model
-      branch_QDA=qda(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
-      
-      #QDA: Test Model
-      branch_probs=predict(branch_QDA, newdata=branch_test)
-      branch_pred =rep(1, length(branch_probs$posterior))#Error
-      branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-      branch_mean=mean(branch_pred != branch_test$is_attributed)
-      
-      #QDA: Save Result
-      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
-      # KNN
-      #      msg=sprintf("Training and testing -> Branch: %d -> Predictor %d: %s -> Model: %s",branch_num, i, pred_list[i], "KNN")
-      #      message(msg)
-      # How do we can select the K in this case? # This is a special case. We need to build a good framework
-      #      train.Attributed=cbind(branch_data$is_attributed[branch_index])
-      #      branch_knn = knn(branch_train, branch_test, train.Attributed, k = 1)
-      #      branch_mean=mean(branch_knn == branch_test$is_attributed)
-      
-      #KNN: Save Result
-      #      results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="KNN",predictors=substring(pred_list[i], 15), accuracy=branch_mean))
-      
-    }
-  }
+  #Logistic Regression:
+  #Logistic Regression: Assign Predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="Logistic Regression")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+  
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "Logistic Regression")
+  message(msg)
+  
+  #Logistic Regression: Test Model
+  branch_probs=predict(training_models[[(branch_num-1)*3+1]], newdata=branch_data, type="response")
+  branch_pred =rep(1, length(branch_probs))#Error
+  branch_pred[branch_probs > 0.5] = 0
+  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  
+  #Logistic Regression: Save Result
+  test_results_table=rbind(test_results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean))
+
+  #LDA:
+  #LDA: Assign Predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="LDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "LDA")
+  message(msg)
+  
+  #LDA: Test Model
+  branch_probs=predict(training_models[[(branch_num-1)*3+2]], newdata=branch_data)
+  branch_pred =rep(1, length(branch_probs$posterior))#Error
+  branch_pred[branch_probs$posterior[,2] > 0.5] = 0
+  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  
+  #LDA: Save Result
+  test_results_table=rbind(test_results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean))
+
+  #QDA:
+  #QDA: Assign Predictor
+  pred=pred_per_model_table[(pred_per_model_table$model=="QDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
+
+  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "QDA")
+  message(msg)
+  
+  #QDA: Test Model
+  branch_probs=predict(training_models[[(branch_num-1)*3+3]], newdata=branch_data)
+  branch_pred =rep(1, length(branch_probs$posterior))#Error
+  branch_pred[branch_probs$posterior[,2] > 0.5] = 0
+  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  
+  #QDA: Save Result
+  test_results_table=rbind(test_results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean))
 }
 
-
+#Best model per branch Table: Initialize
+model_per_branch_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
 
 #Pick Models
 for(file_num in c(1:NUM_FILES)){
   for(branch_num in c(1:BRANCH_TOTAL)){
-      temp_table=pred_per_model_table[(pred_per_model_table==file_num)&(pred_per_model_table$branch==branch_num),]
+      temp_table=test_results_table[(test_results_table==file_num)&(test_results_table$branch==branch_num),]
       model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy),])
   }
 }
