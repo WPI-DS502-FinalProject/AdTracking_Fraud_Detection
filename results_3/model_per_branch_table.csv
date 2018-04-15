@@ -1,0 +1,8 @@
+"","branch","model","predictors","accuracy","TP","FN","FP","TN","accuracy_cMatrix"
+"1",1,"Logistic Regression","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.925328156977357,18987,253654,901,1555,0.925328156977357
+"8",2,"QDA","app+device+ip_app",0.94143232095988,780,58,12496,1,0.94143232095988
+"11",3,"Logistic Regression","ip",0.994905133737177,0,2436654,0,12478,0.994905133737177
+"16",4,"Logistic Regression","ip",0.709416139511028,13597,0,33195,0,0.709416139511027
+"21",5,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.927869384746343,15822,210717,750,617,0.927869384746343
+"26",6,"Logistic Regression","ip",0.646599591856105,14893,0,27249,0,0.646599591856106
+"33",7,"QDA","ip",0.771854406919275,7932,26901,3084,931,0.771854406919275

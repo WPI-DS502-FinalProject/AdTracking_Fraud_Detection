@@ -153,8 +153,10 @@ for(branch_num in c(1:BRANCH_TOTAL)){
 #Pick Models
 for(branch_num in c(1:BRANCH_TOTAL)){
   temp_table=test_results_table[(test_results_table$branch==branch_num),]
-  model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy_cMatrix),])
-  testing_models[[branch_num]] = training_models[[(branch_num-1)*MODEL_TOTAL+which(unique(test_results_table$model) %in% temp_table[which.max(temp_table$accuracy_cMatrix),]$model)]]
+  #model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy_cMatrix),])
+  #testing_models[[branch_num]] = training_models[[(branch_num-1)*MODEL_TOTAL+which(unique(test_results_table$model) %in% temp_table[which.max(temp_table$accuracy_cMatrix),]$model)]]
+  model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy),])
+  testing_models[[branch_num]] = training_models[[(branch_num-1)*MODEL_TOTAL+which(unique(test_results_table$model) %in% temp_table[which.max(temp_table$accuracy),]$model)]]
 }
 model_per_branch_table
 

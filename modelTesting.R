@@ -150,7 +150,8 @@ for(branch_num in c(1:BRANCH_TOTAL)){
 final_balance_table$totalPer=(final_balance_table$human + final_balance_table$bot)/sum(final_balance_table$human + final_balance_table$bot)
 
 #Total Accuracy
-total_accuracy=sum(final_balance_table$totalPer * final_results_table$accuracy_cMatrix)
+#total_accuracy=sum(final_balance_table$totalPer * final_results_table$accuracy_cMatrix)
+total_accuracy=sum(final_balance_table$totalPer * final_results_table$accuracy)
 total_accuracy
 
 write.csv(final_balance_table, file="./results/final_balance_table.csv")
