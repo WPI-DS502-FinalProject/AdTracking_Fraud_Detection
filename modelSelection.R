@@ -8,7 +8,10 @@ MODEL_TOTAL = 5  #Number of models per branch
 BRANCH_TOTAL = 7 #Number of branches
 
 #Results Table: Initialize
-test_results_table=data.frame(branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
+test_results_table=data.frame(branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), TP=numeric(), FN=numeric(), FP=numeric(), TN=numeric(), accuracy_cMatrix=numeric(), stringsAsFactors=FALSE)
+
+#Best model per branch Table: Initialize
+model_per_branch_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), TP=numeric(), FN=numeric(), FP=numeric(), TN=numeric(), accuracy_cMatrix=numeric(), stringsAsFactors=FALSE)
 
 testing_models=list()
 
@@ -49,7 +52,7 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   #Logistic Regression: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="Logistic Regression")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "Logistic Regression")
+  msg=sprintf("Testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "Logistic Regression")
   message(msg)
   
   #Logistic Regression: Test Model
@@ -57,47 +60,50 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_pred =rep(1, length(branch_probs))#Error
   branch_pred[branch_probs > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #Logistic Regression: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #LDA:
   #LDA: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="LDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "LDA")
+  msg=sprintf("Testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "LDA")
   message(msg)
   
   #LDA: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+2]], newdata=branch_data)
-  branch_pred =rep(1, length(branch_probs$posterior))#Error
+  branch_pred =rep(1, nrow(branch_probs$posterior))#Error
   branch_pred[branch_probs$posterior[,2] > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #LDA: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #QDA:
   #QDA: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="QDA")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "QDA")
+  msg=sprintf("Testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "QDA")
   message(msg)
   
   #QDA: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+3]], newdata=branch_data)
-  branch_pred =rep(1, length(branch_probs$posterior))#Error
+  branch_pred =rep(1, nrow(branch_probs$posterior))#Error
   branch_pred[branch_probs$posterior[,2] > 0.5] = 0
   branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #QDA: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #SVM:
   #SVM: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="SVM")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "SVM")
+  msg=sprintf("Testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "SVM")
   message(msg)
   
   #SVM: Test Model
@@ -105,30 +111,32 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   branch_pred =rep(1, length(branch_probs))#Error
   branch_pred[branch_probs > 0.5] = 0
   branch_mean=mean(branch_pred != branch_test$is_attributed)
+  branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #SVM: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #NaiveBayes:
   #NaiveBayes: Assign Predictor
   pred=pred_per_model_table[(pred_per_model_table$model=="NaiveBayes")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
   
-  msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "NaiveBayes")
+  msg=sprintf("Testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "NaiveBayes")
   message(msg)
   
   #NaiveBayes: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+5]], newdata=branch_data)
   branch_pred =rep(1, length(branch_probs))#Error
   branch_mean=mean(branch_pred != branch_test$is_attributed)
+  branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #NaiveBayes: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   if(FALSE){
     #KNN
     pred=pred_per_model_table[(pred_per_model_table$model=="KNN 12")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
     
-    msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
+    msg=sprintf("Testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "KNN 12")
     message(msg)
     
     #KNN: Test Model
@@ -142,15 +150,11 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   }
 }
 
-#Best model per branch Table: Initialize
-model_per_branch_table=data.frame(file=numeric(), branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
-
-
 #Pick Models
 for(branch_num in c(1:BRANCH_TOTAL)){
   temp_table=test_results_table[(test_results_table$branch==branch_num),]
-  model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy),])
-  testing_models[[branch_num]] = training_models[[(branch_num-1)*MODEL_TOTAL+which(unique(test_results_table$model) %in% temp_table[which.max(temp_table$accuracy),]$model)]]
+  model_per_branch_table=rbind(model_per_branch_table,temp_table[which.max(temp_table$accuracy_cMatrix),])
+  testing_models[[branch_num]] = training_models[[(branch_num-1)*MODEL_TOTAL+which(unique(test_results_table$model) %in% temp_table[which.max(temp_table$accuracy_cMatrix),]$model)]]
 }
 model_per_branch_table
 

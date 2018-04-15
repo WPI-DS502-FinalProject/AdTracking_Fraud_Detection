@@ -8,7 +8,7 @@ MODEL_TOTAL = 5  #Number of models per branch
 BRANCH_TOTAL = 7 #Number of branches
 
 #Results Table: Initialize
-final_results_table=data.frame(branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), stringsAsFactors=FALSE)
+final_results_table=data.frame(branch=numeric(), model=character(), predictors=character(), accuracy=numeric(), TP=numeric(), FN=numeric(), FP=numeric(), TN=numeric(), stringsAsFactors=FALSE)
 
 #Balance Table: Initialize
 final_balance_table=data.frame(file=numeric(), branch=numeric(), human=numeric(), bot=numeric(), total=numeric(), humanPer=numeric(), botPer=numeric(), totalPer=numeric(), stringsAsFactors=FALSE)
@@ -68,9 +68,10 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     branch_pred =rep(1, length(branch_probs))#Error
     branch_pred[branch_probs > 0.5] = 0
     branch_mean=mean(branch_pred != branch_data$is_attributed)
+    branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #Logistic Regression: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
 
   }else if(model_per_branch_table[branch_num,]$model=="LDA"){
     #LDA:
@@ -82,12 +83,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     
     #LDA: Test Model
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data)
-    branch_pred =rep(1, length(branch_probs$posterior))#Error
+    branch_pred =rep(1, nrow(branch_probs$posterior))#Error
     branch_pred[branch_probs$posterior[,2] > 0.5] = 0
     branch_mean=mean(branch_pred != branch_data$is_attributed)
+    branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #LDA: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
 
   }else if(model_per_branch_table[branch_num,]$model=="QDA"){
     #QDA:
@@ -99,19 +101,20 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     
     #QDA: Test Model
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data)
-    branch_pred =rep(1, length(branch_probs$posterior))#Error
+    branch_pred =rep(1, nrow(branch_probs$posterior))#Error
     branch_pred[branch_probs$posterior[,2] > 0.5] = 0
     branch_mean=mean(branch_pred != branch_data$is_attributed)
+    branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #QDA: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
 
   }else if(model_per_branch_table[branch_num,]$model=="SVM"){
     #SVM:
     #SVM: Assign Predictor
     pred=pred_per_model_table[(pred_per_model_table$model=="SVM")&(pred_per_model_table$file==BEST_FILE)&(pred_per_model_table$branch==branch_num),]$predictors
     
-    msg=sprintf("Training and testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "SVM")
+    msg=sprintf("Testing -> Branch: %d -> Predictor: %s -> Model: %s",branch_num, pred, "SVM")
     message(msg)
     
     #SVM: Test Model
@@ -119,9 +122,10 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     branch_pred =rep(1, length(branch_probs))#Error
     branch_pred[branch_probs > 0.5] = 0
     branch_mean=mean(branch_pred != branch_test$is_attributed)
+    branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #SVM: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   }else if(model_per_branch_table[branch_num,]$model=="NaiveBayes"){
     #NaiveBayes:
@@ -135,17 +139,18 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data)
     branch_pred =rep(1, length(branch_probs))#Error
     branch_mean=mean(branch_pred != branch_test$is_attributed)
+    branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #NaiveBayes: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
   }else{
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="ERROR",predictors=pred, accuracy=0))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="ERROR",predictors=pred, accuracy=0, TP=0, FN=0, FP=0, TN=0, accuracy_cMatrix=0))
   }
 }
 final_balance_table$totalPer=(final_balance_table$human + final_balance_table$bot)/sum(final_balance_table$human + final_balance_table$bot)
 
 #Total Accuracy
-total_accuracy=sum(final_balance_table$totalPer * final_results_table$accuracy)
+total_accuracy=sum(final_balance_table$totalPer * final_results_table$accuracy_cMatrix)
 total_accuracy
 
 write.csv(final_balance_table, file="./results/final_balance_table.csv")
