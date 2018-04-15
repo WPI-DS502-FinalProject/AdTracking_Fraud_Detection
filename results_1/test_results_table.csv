@@ -1,0 +1,36 @@
+"","branch","model","predictors","accuracy"
+"1",1,"Logistic Regression","ip+device+os+channel+channel_app+channel_ip+channel_ip_app",0.925328156977357
+"2",1,"LDA","ip+os+channel+channel_ip+channel_ip_app",0.916218642878694
+"3",1,"QDA","channel_ip+channel_ip_app",0.836301377332359
+"4",1,"SVM","os+channel+channel_ip+channel_ip_app",0.46555578577738
+"5",1,"NaiveBayes","channel_ip",0.460637520583649
+"6",2,"Logistic Regression","app+ip_app",0.939107611548556
+"7",2,"LDA","channel_ip",0.937157855268091
+"8",2,"QDA","app+device+ip_app",0.94143232095988
+"9",2,"SVM","app+device+ip_app",0.538807649043869
+"10",2,"NaiveBayes","channel_ip",0.461267341582302
+"11",3,"Logistic Regression","ip",0.994905133737177
+"12",3,"LDA","ip",0.987118293338211
+"13",3,"QDA","ip+app",0.922668929236971
+"14",3,"SVM","ip",0.460599510357139
+"15",3,"NaiveBayes","ip",0.460599510357139
+"16",4,"Logistic Regression","ip",0.709416139511028
+"17",4,"LDA","ip",0.709416139511028
+"18",4,"QDA","ip",0.709416139511028
+"19",4,"SVM","ip",0.539194734142588
+"20",4,"NaiveBayes","ip",0.460805265857412
+"21",5,"Logistic Regression","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.927869384746343
+"22",5,"LDA","ip+app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.916434845945258
+"23",5,"QDA","ip+app+channel+hour+ip_app+channel_app+channel_ip+channel_ip_app",0.901270699323405
+"24",5,"SVM","app+channel+ip_app+channel_app+channel_ip+channel_ip_app",0.46582801681395
+"25",5,"NaiveBayes","channel",0.46068115802129
+"26",6,"Logistic Regression","ip",0.646599591856105
+"27",6,"LDA","ip",0.646599591856105
+"28",6,"QDA","ip",0.646599591856105
+"29",6,"SVM","ip",0.538916045750083
+"30",6,"NaiveBayes","ip",0.461083954249917
+"31",7,"Logistic Regression","app+device+os+channel+hour+channel_app+channel_ip+channel_ip_app",0.572513385502471
+"32",7,"LDA","device+os+channel+channel_ip+channel_ip_app",0.599593286655684
+"33",7,"QDA","ip",0.771854406919275
+"34",7,"SVM","device+os+channel+channel_ip+channel_ip_app",0.498790156507413
+"35",7,"NaiveBayes","ip",0.460924629324547
