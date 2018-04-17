@@ -65,13 +65,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     
     #Logistic Regression: Test Model
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data, type="response")
-    branch_pred =rep(1, length(branch_probs))#Error
-    branch_pred[branch_probs > 0.5] = 0
-    branch_mean=mean(branch_pred != branch_data$is_attributed)
+    branch_pred =rep(0, length(branch_probs))#Error
+    branch_pred[branch_probs > 0.5] = 1
+    branch_mean=mean(branch_pred == branch_data$is_attributed)
     branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #Logistic Regression: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
 
   }else if(model_per_branch_table[branch_num,]$model=="LDA"){
     #LDA:
@@ -83,13 +83,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     
     #LDA: Test Model
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data)
-    branch_pred =rep(1, nrow(branch_probs$posterior))#Error
-    branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-    branch_mean=mean(branch_pred != branch_data$is_attributed)
+    branch_pred =rep(0, nrow(branch_probs$posterior))#Error
+    branch_pred[branch_probs$posterior[,2] > 0.5] = 1
+    branch_mean=mean(branch_pred == branch_data$is_attributed)
     branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #LDA: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
 
   }else if(model_per_branch_table[branch_num,]$model=="QDA"){
     #QDA:
@@ -101,13 +101,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     
     #QDA: Test Model
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data)
-    branch_pred =rep(1, nrow(branch_probs$posterior))#Error
-    branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-    branch_mean=mean(branch_pred != branch_data$is_attributed)
+    branch_pred =rep(0, nrow(branch_probs$posterior))#Error
+    branch_pred[branch_probs$posterior[,2] > 0.5] = 1
+    branch_mean=mean(branch_pred == branch_data$is_attributed)
     branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #QDA: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
 
   }else if(model_per_branch_table[branch_num,]$model=="SVM"){
     #SVM:
@@ -119,13 +119,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     
     #SVM: Test Model
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data)
-    branch_pred =rep(1, length(branch_probs))#Error
-    branch_pred[branch_probs > 0.5] = 0
-    branch_mean=mean(branch_pred != branch_test$is_attributed)
+    branch_pred =rep(0, length(branch_probs))#Error
+    branch_pred[branch_probs > 0.5] = 1
+    branch_mean=mean(branch_pred == branch_test$is_attributed)
     branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #SVM: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   }else if(model_per_branch_table[branch_num,]$model=="NaiveBayes"){
     #NaiveBayes:
@@ -137,12 +137,12 @@ for(branch_num in c(1:BRANCH_TOTAL)){
     
     #NaiveBayes: Test Model
     branch_probs=predict(testing_models[[branch_num]], newdata=branch_data)
-    branch_pred =rep(1, length(branch_probs))#Error
-    branch_mean=mean(branch_pred != branch_test$is_attributed)
+    branch_pred =branch_probs
+    branch_mean=mean(branch_pred == branch_test$is_attributed)
     branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
     
     #NaiveBayes: Save Result
-    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+    final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
   }else{
     final_results_table=rbind(final_results_table, data.frame(branch=branch_num, model="ERROR",predictors=pred, accuracy=0, TP=0, FN=0, FP=0, TN=0, accuracy_cMatrix=0))
   }

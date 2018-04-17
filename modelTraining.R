@@ -108,13 +108,13 @@ for(file_num in c(0:NUM_FILES)){
   
         #Logistic Regression: Test Model
         branch_probs=predict(branch_logreg, newdata=branch_test, type="response")
-        branch_pred =rep(1, length(branch_probs))#Error
-        branch_pred[branch_probs > 0.5] = 0
-        branch_mean=mean(branch_pred != branch_test$is_attributed)
+        branch_pred =rep(0, length(branch_probs))#Error
+        branch_pred[branch_probs > 0.5] = 1
+        branch_mean=mean(branch_pred == branch_test$is_attributed)
         branch_cMatrix=confusionMatrix(branch_pred, branch_test$is_attributed)
         
         #Logistic Regression: Save Result
-        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="Logistic Regression",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
       }, error = function(e) {message("Logistic Failed")})
       tryCatch({
         #LDA:
@@ -126,13 +126,13 @@ for(file_num in c(0:NUM_FILES)){
   
         #LDA: Test Model
         branch_probs=predict(branch_LDA, newdata=branch_test)
-        branch_pred =rep(1, nrow(branch_probs$posterior))#Error
-        branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-        branch_mean=mean(branch_pred != branch_test$is_attributed)
+        branch_pred =rep(0, nrow(branch_probs$posterior))#Error
+        branch_pred[branch_probs$posterior[,2] > 0.5] = 1
+        branch_mean=mean(branch_pred == branch_test$is_attributed)
         branch_cMatrix=confusionMatrix(branch_pred, branch_test$is_attributed)
         
         #LDA: Save Result
-        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="LDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
       }, error = function(e) {message("LDA Failed")})
       tryCatch({
         #QDA:
@@ -144,13 +144,13 @@ for(file_num in c(0:NUM_FILES)){
   
         #QDA: Test Model
         branch_probs=predict(branch_QDA, newdata=branch_test)
-        branch_pred =rep(1, nrow(branch_probs$posterior))#Error
-        branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-        branch_mean=mean(branch_pred != branch_test$is_attributed)
+        branch_pred =rep(0, nrow(branch_probs$posterior))#Error
+        branch_pred[branch_probs$posterior[,2] > 0.5] = 1
+        branch_mean=mean(branch_pred == branch_test$is_attributed)
         branch_cMatrix=confusionMatrix(branch_pred, branch_test$is_attributed)
         
         #QDA: Save Result
-        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="QDA",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
       }, error = function(e) {message("QDA Failed")})
       tryCatch({
         #SVM:
@@ -163,13 +163,13 @@ for(file_num in c(0:NUM_FILES)){
         
         #SVM: Test Model
         branch_probs=predict(branch_SVM, newdata=branch_test)
-        branch_pred =rep(1, length(branch_probs))#Error
-        branch_pred[branch_probs > 0.5] = 0
-        branch_mean=mean(branch_pred != branch_test$is_attributed)
+        branch_pred =rep(0, length(branch_probs))#Error
+        branch_pred[branch_probs > 0.5] = 1
+        branch_mean=mean(branch_pred == branch_test$is_attributed)
         branch_cMatrix=confusionMatrix(branch_pred, branch_test$is_attributed)
         
         #SVM: Save Result
-        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="SVM",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="SVM",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
       }, error = function(e) {message("SVM Failed")})
       tryCatch({
         #NaiveBayes:
@@ -181,12 +181,12 @@ for(file_num in c(0:NUM_FILES)){
         
         #NaiveBayes: Test Model
         branch_probs=predict(branch_NB, newdata=branch_test)
-        branch_pred =rep(1, length(branch_probs))#Error
-        branch_mean=mean(branch_pred != branch_test$is_attributed)
+        branch_pred =branch_probs
+        branch_mean=mean(branch_pred == branch_test$is_attributed)
         branch_cMatrix=confusionMatrix(branch_pred, branch_test$is_attributed)
   
         #NaiveBayes: Save Result
-        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="NaiveBayes",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+        results_table=rbind(results_table, data.frame(file=file_num, branch=branch_num, model="NaiveBayes",predictors=substring(pred_list[i], 15), accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
       }, error = function(e) {message("NaiveBayes Failed")})  
         
       if(FALSE){

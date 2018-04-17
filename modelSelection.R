@@ -57,13 +57,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
   #Logistic Regression: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+1]], newdata=branch_data, type="response")
-  branch_pred =rep(1, length(branch_probs))#Error
-  branch_pred[branch_probs > 0.5] = 0
-  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_pred =rep(0, length(branch_probs))#Error
+  branch_pred[branch_probs > 0.5] = 1
+  branch_mean=mean(branch_pred == branch_data$is_attributed)
   branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #Logistic Regression: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="Logistic Regression", predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #LDA:
   #LDA: Assign Predictor
@@ -74,13 +74,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
   #LDA: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+2]], newdata=branch_data)
-  branch_pred =rep(1, nrow(branch_probs$posterior))#Error
-  branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_pred =rep(0, nrow(branch_probs$posterior))#Error
+  branch_pred[branch_probs$posterior[,2] > 0.5] = 1
+  branch_mean=mean(branch_pred == branch_data$is_attributed)
   branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #LDA: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="LDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #QDA:
   #QDA: Assign Predictor
@@ -91,13 +91,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
   #QDA: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+3]], newdata=branch_data)
-  branch_pred =rep(1, nrow(branch_probs$posterior))#Error
-  branch_pred[branch_probs$posterior[,2] > 0.5] = 0
-  branch_mean=mean(branch_pred != branch_data$is_attributed)
+  branch_pred =rep(0, nrow(branch_probs$posterior))#Error
+  branch_pred[branch_probs$posterior[,2] > 0.5] = 1
+  branch_mean=mean(branch_pred == branch_data$is_attributed)
   branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #QDA: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="QDA",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #SVM:
   #SVM: Assign Predictor
@@ -108,13 +108,13 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
   #SVM: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+4]], newdata=branch_data)
-  branch_pred =rep(1, length(branch_probs))#Error
-  branch_pred[branch_probs > 0.5] = 0
-  branch_mean=mean(branch_pred != branch_test$is_attributed)
+  branch_pred =rep(0, length(branch_probs))#Error
+  branch_pred[branch_probs > 0.5] = 1
+  branch_mean=mean(branch_pred == branch_test$is_attributed)
   branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #SVM: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="SVM",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   #NaiveBayes:
   #NaiveBayes: Assign Predictor
@@ -125,12 +125,12 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   
   #NaiveBayes: Test Model
   branch_probs=predict(training_models[[(branch_num-1)*MODEL_TOTAL+5]], newdata=branch_data)
-  branch_pred =rep(1, length(branch_probs))#Error
-  branch_mean=mean(branch_pred != branch_test$is_attributed)
+  branch_pred =branch_probs
+  branch_mean=mean(branch_pred == branch_test$is_attributed)
   branch_cMatrix=confusionMatrix(branch_pred, branch_data$is_attributed)
   
   #NaiveBayes: Save Result
-  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=1-as.numeric(branch_cMatrix$overall["Accuracy"])))
+  test_results_table=rbind(test_results_table, data.frame(branch=branch_num, model="NaiveBayes",predictors=pred, accuracy=branch_mean, TP=branch_cMatrix$table[1], FN=branch_cMatrix$table[2], FP=branch_cMatrix$table[3], TN=branch_cMatrix$table[4], accuracy_cMatrix=as.numeric(branch_cMatrix$overall["Accuracy"])))
   
   if(FALSE){
     #KNN
