@@ -89,8 +89,8 @@ for(branch_num in c(1:BRANCH_TOTAL)){
   message(msg)
   
   #SVM: Train Model
-  #branch_SVM=svm(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
-  branch_SVM=glm(paste("is_attributed~",pred,collapse=""), data=branch_data, subset=branch_index)
+  branch_SVM=svm(as.formula(paste("is_attributed~",pred,collapse="")), data=branch_data, subset=branch_index)
+  #branch_SVM=glm(paste("is_attributed~",pred,collapse=""), data=branch_data, subset=branch_index)
 
   #SVM: Save Result
   training_models[[(branch_num-1)*MODEL_TOTAL+4]]=branch_SVM

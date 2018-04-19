@@ -158,8 +158,8 @@ for(file_num in c(0:NUM_FILES)){
         message(msg)
         
         #SVM: Train Model
-        #branch_SVM=svm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
-        branch_SVM=glm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
+        branch_SVM=svm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
+        #branch_SVM=glm(as.formula(pred_list[i]), data=branch_data, subset=branch_index)
         
         #SVM: Test Model
         branch_probs=predict(branch_SVM, newdata=branch_test)
